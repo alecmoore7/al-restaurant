@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Employee Details{% endblock %}
+
+{% block content %}
+    <h1 class="display-4">Employee Information</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ employee.name }}</h5>
+            <p class="card-text"><strong>Address:</strong> {{ employee.address }}</p>
+            <p class="card-text"><strong>Email:</strong> {{ employee.email }}</p>
+            <p class="card-text"><strong>Date of Birth:</strong> {{ employee.date_of_birth }}</p>
+            <p class="card-text"><strong>Phone:</strong> {{ employee.phone }}</p>
+            <p class="card-text"><strong>Start Date:</strong> {{ employee.start_date }}</p>
+            <p class="card-text"><strong>Job Title:</strong> {{ employee.job_title }}</p>
+        </div>
+    </div>
+{% endblock %}

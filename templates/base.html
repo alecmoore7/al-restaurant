@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url_for('index') }}">Site Title</a>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Happy Lawn Company</a>
 
                 <div class="justify-content-end">
 
@@ -25,15 +25,15 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-
                             <li class="nav-item">
-                                <a class="nav-link" href="#">navlink-1</a>
+                                <a class="nav-link" href="{{ url_for('lawns') }}">Lawns</a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link" href="#">navlink-2</a>
+                                <a class="nav-link" href="{{ url_for('customers') }}">Customers</a>
                             </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
 
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
-            <span class="text-muted">Copyright © 2023, Indiana University</span>
+            <span class="text-muted">© 2023, Indiana University</span>
         </div>
     </footer>
 

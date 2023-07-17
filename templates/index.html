@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Happy Lawn Company Home{% endblock %}
 
 {% block content %}
-<h1 class="display-4">Hello Flask!</h1>
 
-<p class="lead">This is a template to get you spinning up with <code>flask</code> and <code>Bootstrap</code>.</p>
-
-<img class="img-fluid" src="{{ url_for('static', filename='images/doing-great.png') }}">
-
+    <div class="container">
+        <div class="jumbotron mt-5">
+            <h1 class="display-4">Welcome to Happy Lawn Company</h1>
+            <p class="lead">Here to provide exceptional lawn assistance for our customers.</p>
+            <img class="img-fluid" src="{{ url_for('static', filename='images/lawnmow.png') }}" alt="Happy Lawn Company Logo">
+            <div class="mt-4">
+                <a href="{{ url_for('lawns') }}" class="btn btn-primary btn-lg">View Lawns</a>
+                <a href="{{ url_for('customers') }}" class="btn btn-primary btn-lg">View Customers</a>
+                <a href="{{ url_for('employees') }}" class="btn btn-primary btn-lg">View Employees</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

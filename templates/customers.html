@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Customers{% endblock %}
+
+{% block content %}
+    <h1 class="display-4">Happy Lawns Customer List</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.address }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.date_of_birth }}</td>
+                <td>{{ customer.phone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
