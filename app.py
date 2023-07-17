@@ -3,9 +3,9 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-EMPLOYEES_PATH = "employees.csv"
-CUSTOMERS_PATH = "customers.csv"
-LAWNS_PATH = "lawns.csv"
+EMPLOYEES_PATH = app.root_path+'/employees.csv'
+CUSTOMERS_PATH = app.root_path+'customers.csv'
+LAWNS_PATH = app.root_path+'/lawns.csv'
 
 @app.route('/')
 def index():
