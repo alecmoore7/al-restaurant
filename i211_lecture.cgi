@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 
-from wsgiref.handlers import CGHandler
+from wsgiref.handlers import CGIHandler
 import sys
 
 sys.path.append("i211_lecture")
