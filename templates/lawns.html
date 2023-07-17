@@ -16,7 +16,7 @@
         <tbody>
             {% for lawn in lawns %}
             <tr>
-                <td><a href="{{ url_for('lawn', lawn_id=lawn.id) }}">{{ lawn.address }}</a></td>
+                <td><a href="{{ url_for('lawn', lawn_id=lawn['id']) }}">{{ lawn.address }}</a></td>
                 <td>{{ lawn.size }}</td>
                 <td>{{ lawn.date_added }}</td>
                 <td>{{ lawn.notes }}</td>

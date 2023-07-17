@@ -1,18 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}Employee Details{% endblock %}
+{% block title %}Employee Information{% endblock %}
 
 {% block content %}
-    <h1 class="display-4">Employee Information</h1>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">{{ employee.name }}</h5>
-            <p class="card-text"><strong>Address:</strong> {{ employee.address }}</p>
-            <p class="card-text"><strong>Email:</strong> {{ employee.email }}</p>
-            <p class="card-text"><strong>Date of Birth:</strong> {{ employee.date_of_birth }}</p>
-            <p class="card-text"><strong>Phone:</strong> {{ employee.phone }}</p>
-            <p class="card-text"><strong>Start Date:</strong> {{ employee.start_date }}</p>
-            <p class="card-text"><strong>Job Title:</strong> {{ employee.job_title }}</p>
-        </div>
-    </div>
+  <h1 class="display-4">Employee Infomrmation</h1>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Name:</th>
+        <td>{{ employee['name'] }}</td>
+      </tr>
+      <tr>
+        <th>Job Title:</th>
+        <td>{{ employee['title'] }}</td>
+      </tr>
+      <tr>
+        <th>Address:</th>
+        <td>{{ employee['address'] }}</td>
+      </tr>
+      <tr>
+        <th>Email:</th>
+        <td>{{ employee['email'] }}</td>
+      </tr>
+      <tr>
+        <th>Date of Birth:</th>
+        <td>{{ employee['date_of_birth'] }}</td>
+      </tr>
+      <tr>
+        <th>Phone:</th>
+        <td>{{ employee['mobile_phone'] }}</td>
+      </tr>
+      <tr>
+        <th>Start Date:</th>
+        <td>{{ employee['employment_start_date'] }}</td>
+      </tr>
+    </tbody>
+  </table>
 {% endblock %}

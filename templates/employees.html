@@ -8,23 +8,25 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Title</th>
                 <th>Address</th>
                 <th>Email</th>
                 <th>Date of Birth</th>
                 <th>Phone</th>
-                <th>Title</th>
+                <th>Start Date</th>
             </tr>
         </thead>
         <tbody>
             {% for employee in employees %}
-            <tr>
-                <td><a href="{{ url_for('employee_details', employee_id=employee.id) }}">{{ employee.name }}</a></td>
-                <td>{{ employee.address }}</td>
-                <td>{{ employee.email }}</td>
-                <td>{{ employee.date_of_birth }}</td>
-                <td>{{ employee.phone }}</td>
-                <td>{{ employee.title }}</td>
-            </tr>
+                <tr>
+                    <td><a href="{{ url_for('employee', employee_id=employee['employee_id']) }}">{{ employee.name }}</a></td>
+                    <td>{{ employee.title }}</td>
+                    <td>{{ employee.address }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.date_of_birth }}</td>
+                    <td>{{ employee.mobile_phone }}</td>
+                    <td>{{ employee.employment_start_date }}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
