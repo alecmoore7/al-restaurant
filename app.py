@@ -12,6 +12,15 @@ EMPLOYEES_PATH = app.root_path + '/employees.csv'
 CUSTOMERS_PATH = app.root_path + '/customers.csv'
 LAWNS_PATH = app.root_path + '/lawns.csv'
 
+def read_csv_file(file_path):
+    """Reads data from a CSV file and returns a list of dictionaries."""
+    data = []
+    with open(file_path, "r") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            data.append(row)
+    return data
+
 @app.route("/")
 def index():
     return render_template("index.html")
