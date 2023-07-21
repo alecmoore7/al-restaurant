@@ -1,27 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}Lawns{% endblock %}
+{% block title %}Happy Lawns Listing{% endblock %}
 
 {% block content %}
-    <h1 class="display-4">Happy Lawns Listing</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Address</th>
-                <th>Size</th>
-                <th>Date Added</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for lawn in lawns %}
-            <tr>
-                <td><a href="{{ url_for('lawn', lawn_id=lawn['id']) }}">{{ lawn.address }}</a></td>
-                <td>{{ lawn.size }}</td>
-                <td>{{ lawn.date_added }}</td>
-                <td>{{ lawn.notes }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <h1 class="display-4">Happy Lawns Listing</h1>
+
+  <a class="btn btn-primary mb-3" href="{{ url_for('create_lawn') }}">Create New Lawn</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Address</th>
+        <th>Size (sqft)</th>
+        <th>Type</th>
+        <th>Date Added</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for lawn in lawns %}
+        <tr>
+          <td><a href="{{ url_for('lawn_details', lawn_id=lawn['id']) }}">{{ lawn['address'] }}</a></td>
+          <td>{{ lawn['size'] }}</td>
+          <td>{{ lawn['type'] }}</td>
+          <td>{{ lawn['date_added'] }}</td>
+          <td>{{ lawn['notes'] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

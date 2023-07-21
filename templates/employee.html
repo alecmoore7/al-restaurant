@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Employee Information{% endblock %}
+{% block title %}Employee Details{% endblock %}
 
 {% block content %}
-  <h1 class="display-4">Employee Infomrmation</h1>
+  <h1 class="display-4">Employee Details</h1>
 
   <table class="table">
     <tbody>
@@ -28,7 +28,7 @@
         <td>{{ employee['date_of_birth'] }}</td>
       </tr>
       <tr>
-        <th>Phone:</th>
+        <th>Mobile Phone:</th>
         <td>{{ employee['mobile_phone'] }}</td>
       </tr>
       <tr>
@@ -37,4 +37,7 @@
       </tr>
     </tbody>
   </table>
+
+  <a class="btn btn-primary" href="{{ url_for('edit_employee', employee_id=employee['employee_id']) }}">Edit Employee</a>
+  <a class="btn btn-danger" href="{{ url_for('delete_employee', employee_id=employee['employee_id']) }}">Delete Employee</a>
 {% endblock %}
