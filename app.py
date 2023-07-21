@@ -30,16 +30,18 @@ def index():
 @app.route('/employees/')
 def employees():
     """ Renders the employees page with a list of employees sorted by start date."""
-    employees = read_csv_file(EMPLOYEES_PATH)
-    employees = sorted(employees, key=lambda x: x['employment_start_date'], reverse=True)
-    return render_template("employees.html", employees=employees)
+    with open(EMPLOYEES_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        lawns = sorted(list(reader), key=lambda x: int(x['size']), reverse=True)
+    return render_template("lawns.html", lawns=lawns)
 
 
 @app.route('/employees/<employee_id>/')
 def employee(employee_id):
     """ Renders the employee details page for the given employee ID."""
-    employees = read_csv_file(EMPLOYEES_PATH)
-    for emp in employees:
+    with open(LAWNS_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+    for emp in reader:
             if emp['employee_id'] == employee_id:
                 employee = emp
                 break
@@ -51,17 +53,23 @@ def employee(employee_id):
 
 @app.route('/customers/')
 def customers():
-    """ Reads customer data from the 'customers.csv' file, sorts it by last name from A to Z, and returns a rendered template."""
-    customers = read_csv_file(CUSTOMERS_PATH)
-    customers = sorted(customers, key=lambda row: row['name'].split()[-1])
+    """Reads customer data from the 'customers.csv' file, sorts it by last name from A to Z, and returns a rendered template."""
+    try:
+        with open(CUSTOMERS_PATH, 'r') as file:
+            reader = csv.DictReader(file)
+            customers = sorted(reader, key=lambda row: row['name'].split()[-1])
+    except Exception as e:
+        print(e)
+        customers = []
+    
     return render_template('customers.html', customers=customers)
 
-
 @app.route('/lawns/')
-def all_lawns():
-    """ Renders the lawns page with a list of lawns sorted by size."""
-    lawns = read_csv_file(LAWNS_PATH)
-    lawns = sorted(lawns, key=lambda x: int(x['size']), reverse=True)
+def lawns():
+    """Renders the lawns page with a list of lawns sorted by size."""
+    with open(LAWNS_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        lawns = sorted(list(reader), key=lambda x: int(x['size']), reverse=True)
     return render_template("lawns.html", lawns=lawns)
 
 
@@ -92,19 +100,19 @@ def create_lawn():
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writerow({'address': address, 'size': size, 'date_added': date_added, 'type': lawn_type, 'notes': notes})
 
-        return redirect(url_for('lawn_form'))
+        return redirect(url_for('lawn'))
     return render_template('lawn_form.html')
 
 @app.route('/lawns/<int:lawn_id>/edit/', methods=['GET', 'POST'])
 def edit_lawn(lawn_id):
     """ Displays form to edit an existing lawn and updates the data in 'lawns.csv', then redirects to the '/lawns/<lawn_id>/' route after successful input."""
-    lawns = read_csv_file(LAWNS_PATH)
-
-    lawn = None
-    for l in lawns:
-        if l['id'] == lawn_id:
-            lawn = l
-            break
+    with open(LAWNS_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        for lawn in reader:
+            if lawn['id'] == lawn_id:
+                break
+        else:
+            lawn = None
 
     if lawn is None:
         return f"Lawn with ID {lawn_id} not found."
@@ -116,18 +124,21 @@ def edit_lawn(lawn_id):
         lawn_type = request.form['type']
         notes = request.form['notes']
 
-        # Update data in the lawns list
-        lawn['address'] = address
-        lawn['size'] = size
-        lawn['date_added'] = date_added
-        lawn['type'] = lawn_type
-        lawn['notes'] = notes
-
-        with open(LAWNS_PATH, 'w', newline='') as csvfile:
+        with open(LAWNS_PATH, 'r', newline='') as csvfile:
             fieldnames = ['id', 'address', 'size', 'date_added', 'type', 'notes']
+            rows = list(csv.DictReader(csvfile))
+        
+        with open(LAWNS_PATH, 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
-            writer.writerows(lawns)
+            for row in rows:
+                if row['id'] == lawn_id:
+                    row['address'] = address
+                    row['size'] = size
+                    row['date_added'] = date_added
+                    row['type'] = lawn_type
+                    row['notes'] = notes
+                writer.writerow(row)
 
         return redirect(url_for('lawn', lawn_id=lawn_id))
     return render_template('lawn_form.html', lawn=lawn)
@@ -164,13 +175,13 @@ def create_employee():
 @app.route('/employees/<int:employee_id>/edit/', methods=['GET', 'POST'])
 def edit_employee(employee_id):
     """Displays form to edit an existing employee and updates the data in 'employees.csv', then redirects to the '/employees/<employee_id>/' route after successful input."""
-    employees = read_csv_file(EMPLOYEES_PATH)
-
-    employee = None
-    for emp in employees:
-        if emp['employee_id'] == employee_id:
-            employee = emp
-            break
+    with open(EMPLOYEES_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        for emp in reader:
+            if emp['employee_id'] == employee_id:
+                break
+        else:
+            emp = None
 
     if employee is None:
         return f"Employee with ID {employee_id} not found."
@@ -205,13 +216,13 @@ def edit_employee(employee_id):
 @app.route('/lawns/<int:lawn_id>/delete', methods=['GET', 'POST'])
 def delete_lawn(lawn_id):
     """Displays form to delete an existing lawn and updates the data in 'lawns.csv', then redirects to the '/employees/<employee_id>/' route after successful input."""
-    lawns = read_csv_file(LAWNS_PATH)
-
-    lawn = None
-    for l in lawns:
-        if l['id'] == lawn_id:
-            lawn = l
-            break
+    with open(LAWNS_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        for lawn in reader:
+            if lawn['id'] == lawn_id:
+                break
+        else:
+            lawn = None
 
     if lawn is None:
         return f"Lawn with ID {lawn_id} not found."
@@ -219,7 +230,7 @@ def delete_lawn(lawn_id):
     if request.method == 'POST':
         lawns = [l for l in lawns if l['id'] != lawn_id]
         fieldnames = ['id', 'address', 'size', 'date_added', 'type', 'notes']
-        write_csv_file('lawns.csv', fieldnames, lawns)
+        write_csv_file(LAWNS_PATH, fieldnames, lawns)
 
         return redirect(url_for('lawn_form'))
     return render_template('lawn_delete.html', lawn=lawn)
