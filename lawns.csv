@@ -1,4 +1,4 @@
-id,address,size,type,date_added,notes
+lawn_id,address,size,type,date_added,notes
 1,123 Main St,2500,Residential,2022-05-10,"Corner lot, needs extra care"
 2,456 Elm St,1800,Commercial,2022-06-15,"Shady area, watch out for tree roots"
 3,789 Oak Ave,3200,Residential,2022-07-01,"Large backyard, no pets allowed"
@@ -10,7 +10,3 @@ id,address,size,type,date_added,notes
 9,210 Willow St,3300,Residential,2022-07-25,"Playground area to be avoided during mowing"
 10,987 Walnut Ave,2000,Commercial,2022-06-01,"Drought-resistant grass, minimal watering needed"
 
-11,555 House,3444,5555-12-31,residential,ff
-12,555 House,3444,5555-12-31,residential,ff
-13,154 E dr,4444,0044-04-04,residential,444444
-14,333,3333,3333-03-31,residential,3333

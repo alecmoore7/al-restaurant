@@ -9,7 +9,7 @@
     <tbody>
       <tr>
         <th>Lawn ID:</th>
-        <td>{{ lawn['id'] }}</td>
+        <td>{{ lawn['lawn_id'] }}</td>
       </tr>
       <tr>
         <th>Address:</th>
@@ -34,6 +34,6 @@
     </tbody>
   </table>
 
-  <a class="btn btn-primary" href="{{ url_for('lawn_form', lawn_id=lawn['id']) }}">Edit Lawn</a>
-  <a class="btn btn-danger" href="{{ url_for('delete_lawn', lawn_id=lawn['id']) }}">Delete Lawn</a>
+  <a class="btn btn-primary" href="{{ url_for('lawn_form', lawn_id=lawn['lawn_id']) }}">Edit Lawn</a>
+  <a class="btn btn-danger" href="{{ url_for('delete_lawn', lawn_id=lawn['lawn_id']) }}">Delete Lawn</a>
 {% endblock %}

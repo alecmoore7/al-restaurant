@@ -26,7 +26,7 @@ def get_last_lawn_id():
     """Get the ID of the last lawn in the dataset."""
     lawns = read_csv_file(LAWNS_PATH)
     if lawns:
-        last_lawn_id = int(lawns[-1]['id'])
+        last_lawn_id = int(lawns[-1]['lawn_id'])
     else:
         last_lawn_id = 0
     return last_lawn_id
@@ -56,7 +56,7 @@ def employees():
             employees = list(reader)
 
         # Sort the employees by start_date in descending order
-        employees = sorted(employees, key=lambda e: e['employment_start_date'], reverse=True)
+        employees = sorted(employees, key=lambda e: datetime.datetime.strptime(e.get('start_date', '1900-01-01'), '%Y-%m-%d'), reverse=True)
 
         return render_template('employees.html', employees=employees)
 
@@ -65,7 +65,7 @@ def employees():
 @app.route('/employees/<employee_id>/', methods=['GET', 'POST'])
 def employee(employee_id):
     """ Renders the employee details page for the given employee ID."""
-    with open('EMPLOYEES_PATH', 'r') as file:
+    with open(EMPLOYEES_PATH, 'r') as file:
         reader = csv.DictReader(file)
         employees = list(reader)
 
@@ -109,7 +109,7 @@ def lawn(lawn_id):
     
     lawn = None
     for lawn_data in lawns:
-        if lawn_data['id'] == str(lawn_id):  # Convert lawn_id to a string for comparison
+        if lawn_data['lawn_id'] == str(lawn_id):  # Convert lawn_id to a string for comparison
             lawn = lawn_data
             break
 
@@ -137,7 +137,7 @@ def create_lawn():
         new_lawn_id = last_lawn_id + 1
 
         new_lawn = {
-            'id': str(new_lawn_id),
+            'lawn_id': str(new_lawn_id),
             'address': address,
             'size': size,
             'date_added': date_added,
@@ -146,7 +146,7 @@ def create_lawn():
         }
 
         with open(LAWNS_PATH, 'a', newline='') as csvfile:
-            fieldnames = ['id', 'address', 'size', 'date_added', 'type', 'notes']
+            fieldnames = ['lawn_id', 'address', 'size', 'date_added', 'type', 'notes']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             if csvfile.tell() == 0:
                 writer.writeheader()
@@ -165,7 +165,7 @@ def edit_lawn(lawn_id):
 
     lawn = None
     for l in lawns:
-        if l['id'] == str(lawn_id):
+        if l['lawn_id'] == str(lawn_id):
             lawn = l
             break
 
@@ -184,14 +184,14 @@ def edit_lawn(lawn_id):
             size = lawn['size']
 
         with open(LAWNS_PATH, 'r', newline='') as csvfile:
-            fieldnames = ['id', 'address', 'size', 'date_added', 'type', 'notes']
+            fieldnames = ['lawn_id', 'address', 'size', 'date_added', 'type', 'notes']
             rows = list(csv.DictReader(csvfile))
         
         with open(LAWNS_PATH, 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             for row in rows:
-                if row['id'] == str(lawn_id):
+                if row['lawn_id'] == str(lawn_id):
                     row['address'] = address
                     row['size'] = size
                     row['date_added'] = date_added
@@ -199,8 +199,8 @@ def edit_lawn(lawn_id):
                     row['notes'] = notes
                 writer.writerow(row)
 
-        return redirect(url_for('lawn'))
-    return render_template('lawn.html', lawn=lawn)
+        return redirect(url_for('lawn'), lawn_id=lawn_id)
+    return render_template('lawn_form.html', lawn=lawn)
 
 if __name__ == "__main__":
     app.run(debug=True)
@@ -295,7 +295,7 @@ def delete_lawn(lawn_id):
 
     lawn = None
     for l in lawns:
-        if l['id'] == str(lawn_id):
+        if l['lawn_id'] == str(lawn_id):
             lawn = l
             break
 
@@ -303,8 +303,8 @@ def delete_lawn(lawn_id):
         return f"Lawn with ID {lawn_id} not found."
 
     if request.method == 'POST':
-        lawns = [l for l in lawns if l['id'] != str(lawn_id)]
-        fieldnames = ['id', 'address', 'size', 'date_added', 'type', 'notes']
+        lawns = [l for l in lawns if l['lawn_id'] != str(lawn_id)]
+        fieldnames = ['lawn_id', 'address', 'size', 'date_added', 'type', 'notes']
         write_csv_file(LAWNS_PATH, fieldnames, lawns)
 
         return redirect(url_for('lawns'))
