@@ -62,7 +62,7 @@ def employees():
 
 
 
-@app.route('/employees/<employee_id>/')
+@app.route('/employees/<employee_id>/', methods=['GET', 'POST'])
 def employee(employee_id):
     """ Renders the employee details page for the given employee ID."""
     with open('EMPLOYEES_PATH', 'r') as file:
@@ -73,7 +73,7 @@ def employee(employee_id):
 
     return render_template('employee.html', employee=employee)
 
-@app.route('/customers/')
+@app.route('/customers/', methods=['GET', 'POST'])
 def customers():
     """Reads customer data from the 'customers.csv' file, sorts it by last name from A to Z, and returns a rendered template."""
     try:
@@ -87,7 +87,7 @@ def customers():
     return render_template('customers.html', customers=customers)
 
 
-@app.route('/lawns/')
+@app.route('/lawns/', methods=['GET', 'POST'])
 def lawns():
     """Renders the lawns page with a list of lawns sorted by size."""
     with open(LAWNS_PATH, 'r') as file:
