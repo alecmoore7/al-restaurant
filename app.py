@@ -48,29 +48,28 @@ def index():
 
 @app.route('/employees/')
 def employees():
-    """Renders the employees page with a list of employees sorted by start date."""
-    employees = read_csv_file(EMPLOYEES_PATH)
+    """Read the employee data from the CSV file"""
+    with open(EMPLOYEES_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        employees = list(reader)
 
-    for emp in employees:
-        emp['employment_start_date'] = datetime.datetime.strptime(emp['employment_start_date'], '%Y-%m-%d') if emp['employment_start_date'] else None
+    # Sort the employees by start_date in descending order
+    employees = sorted(employees, key=lambda e: e['employment,start_date'], reverse=True)
 
-    # Sort employees by 'employment_start_date', handle None values using lambda x: x or datetime(1970, 1, 1)
-    employees = sorted(employees, key=lambda x: x['employment_start_date'] or datetime.datetime(1970, 1, 1), reverse=True)
-
-    return render_template("employees.html", employees=employees)
+    return render_template('employees.html', employees=employees)
 
 
-@app.route('/employees/<employee_id>/', endpoint='employee_details')
+
+@app.route('/employees/<employee_id>/')
 def employee(employee_id):
     """ Renders the employee details page for the given employee ID."""
-    employees = read_csv_file(EMPLOYEES_PATH)
-    employee = None
-    for emp in employees:
-        if emp['employee_id'] == employee_id:
-            employee = emp
-            break
-    return render_template("employee.html", employee=employee)
+    with open('employees.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        employees = list(reader)
 
+    employee = next((e for e in employees if e['employee_id'] == employee_id), None)
+
+    return render_template('employee.html', employee=employee)
 
 @app.route('/customers/')
 def customers():
@@ -140,7 +139,7 @@ def create_lawn():
             'address': address,
             'size': size,
             'date_added': date_added,
-            'type': lawn_type,
+            'lawn_type': lawn_type,
             'notes': notes,
         }
 

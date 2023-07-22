@@ -1,51 +1,48 @@
 {% extends "base.html" %}
 
-{% block title %}Employee Details{% endblock %}
+{% block title %}Employees{% endblock %}
 
 {% block content %}
-  <h1 class="display-4">Employee Details</h1>
+    <h1 class="display-4">Happy Lawn Employees</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <th>Phone</th>
+                <th>Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td><a href="{{ url_for('employee', employee_id=employee['employee_id']) }}">{{ {employee.firstname} {employee.lastname} }}</a></td>
+                    <td>{{ employee.title }}</td>
+                    <td>{{ employee.address }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.date_of_birth }}</td>
+                    <td>{{ employee.mobile_phone }}</td>
+                    <td>{{ employee.employment_start_date }}</td>
+                </tr>
+                <a class="btn btn-primary" href="{{ url_for('edit_employee', employee_id=employee['employee_id']) }}">Edit Employee</a>
+                <a class="btn btn-danger" href="{{ url_for('delete_employee', employee_id=employee['employee_id']) }}">Delete Employee</a>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
 
-  <table class="table">
-    <tbody>
-      <tr>
-        <th>Employee ID:</th>
-        <td>{{ employee['employee_id'] }}</td>
-      </tr>
-      <tr>
-        <th>First Name:</th>
-        <td>{{ employee['first_name'] }}</td>
-      </tr>
-      <tr>
-        <th>Last Name:</th>
-        <td>{{ employee['last_name'] }}</td>
-      </tr>
-      <tr>
-        <th>Job Title:</th>
-        <td>{{ employee['title'] }}</td>
-      </tr>
-      <tr>
-        <th>Address:</th>
-        <td>{{ employee['address'] }}</td>
-      </tr>
-      <tr>
-        <th>Email:</th>
-        <td>{{ employee['email'] }}</td>
-      </tr>
-      <tr>
-        <th>Date of Birth:</th>
-        <td>{{ employee['date_of_birth'] }}</td>
-      </tr>
-      <tr>
-        <th>Mobile Phone:</th>
-        <td>{{ employee['phone'] }}</td>
-      </tr>
-      <tr>
-        <th>Start Date:</th>
-        <td>{{ employee['employment_start_date'] }}</td>
-      </tr>
-    </tbody>
-  </table>
 
+<tr>
+  <td><a href="{{ url_for('employee_details', employee_id=employee.id) }}">{{ {employee.first_name} {employee.last_name} }}</a></td>
+  <td>{{ employee.address }}</td>
+  <td>{{ employee.email }}</td>
+  <td>{{ employee.date_of_birth }}</td>
+  <td>{{ employee.phone }}</td>
+  <td>{{ employee.title }}</td>
+</tr>
   <a class="btn btn-primary" href="{{ url_for('edit_employee', employee_id=employee['employee_id']) }}">Edit Employee</a>
   <a class="btn btn-danger" href="{{ url_for('delete_employee', employee_id=employee['employee_id']) }}">Delete Employee</a>
 {% endblock %}
