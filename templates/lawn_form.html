@@ -5,7 +5,7 @@
 {% block content %}
   <h1 class="display-4">Lawn Form</h1>
 
-  <form method="post">
+  <form method="post", action="{{ url_for('create_lawn') }}">
     <div class="mb-3">
       <label for="address" class="form-label">Address:</label>
       <input type="text" class="form-control" id="address" name="address" required>
@@ -19,8 +19,8 @@
       <input type="date" class="form-control" id="date_added" name="date_added" required>
     </div>
     <div class="mb-3">
-      <label for="type" class="form-label">Type:</label>
-      <select class="form-select" id="type" name="type" required>
+      <label for="lawn_type" class="form-label">Type:</label>
+      <select class="form-select" id="lawn_type" name="lawn_type" required>
         <option value="residential">Residential</option>
         <option value="commercial">Commercial</option>
       </select>

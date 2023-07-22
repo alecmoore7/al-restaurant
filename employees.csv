@@ -1,11 +1,11 @@
-employee_id,name,title,address,email,date_of_birth,mobile_phone,employment_start_date
-1,John Smith,Manager,123 Main St,johnsmith@example.com,1990-01-01,123-456-7890,2020-01-01
-2,Jane Doe,Supervisor,456 Elm St,janedoe@example.com,1985-05-10,987-654-3210,2018-03-15
-3,Michael Johnson,Technician,789 Oak Ave,michaeljohnson@example.com,1982-09-20,456-789-0123,2017-07-01
-4,Emily Williams,Assistant,234 Pine Rd,emilywilliams@example.com,1994-03-12,789-012-3456,2019-05-10
-5,Christopher Brown,Intern,567 Cedar Ln,christopherbrown@example.com,1988-11-05,012-345-6789,2022-02-18
-6,Sally Williams,Manager,890 Maple St,sallwill@example.com,1991-07-15,345-678-9012,2016-09-05
-7,Daniel Davis,Technician,123 Elm St,danieldavis@example.com,1993-02-28,678-901-2345,2021-11-30
-8,Jessica Martinez,Supervisor,456 Oak Ave,jessicamartinez@example.com,1987-06-25,901-234-5678,2019-04-03
-9,Matthew Anderson,Assistant,789 Pine Rd,matthewanderson@example.com,1995-09-08,234-567-8901,2020-08-20
-10,Olivia Thomas,Technician,234 Cedar Ln,oliviathomas@example.com,1989-04-16,567-890-1234,2018-06-12
+employee_id,first_name,last_name,title,address,email,date_of_birth,mobile_phone,employment_start_date
+1,John,Smith,Manager,123 Main St,johnsmith@example.com,1990-01-01,123-456-7890,2020-01-01
+2,Jane,Doe,Supervisor,456 Elm St,janedoe@example.com,1985-05-10,987-654-3210,2018-03-15
+3,Michael,Johnson,Technician,789 Oak Ave,michaeljohnson@example.com,1982-09-20,456-789-0123,2017-07-01
+4,Emily,Williams,Assistant,234 Pine Rd,emilywilliams@example.com,1994-03-12,789-012-3456,2019-05-10
+5,Christopher,Brown,Intern,567 Cedar Ln,christopherbrown@example.com,1988-11-05,012-345-6789,2022-02-18
+6,Sally,Williams,Manager,890 Maple St,sallwill@example.com,1991-07-15,345-678-9012,2016-09-05
+7,Daniel,Davis,Technician,123 Elm St,danieldavis@example.com,1993-02-28,678-901-2345,2021-11-30
+8,Jessica,Martinez,Supervisor,456 Oak Ave,jessicamartinez@example.com,1987-06-25,901-234-5678,2019-04-03
+9,Matthew,Anderson,Assistant,789 Pine Rd,matthewanderson@example.com,1995-09-08,234-567-8901,2020-08-20
+10,Olivia,Thomas,Technician,234 Cedar Ln,oliviathomas@example.com,1989-04-16,567-890-1234,2018-06-12

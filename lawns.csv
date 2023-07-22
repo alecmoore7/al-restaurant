@@ -1,11 +1,15 @@
-id,address,size,date_added,notes
-1,123 Main St,2500,2022-05-10,"Corner lot, needs extra care"
-2,456 Elm St,1800,2022-06-15,"Shady area, watch out for tree roots"
-3,789 Oak Ave,3200,2022-07-01,"Large backyard, no pets allowed"
-4,987 Pine St,1500,2022-05-05,"Sloping terrain, use caution when mowing"
-5,654 Maple Ave,2100,2022-07-20,"Garden area needs special attention"
-6,321 Cedar Rd,2900,2022-06-10,"Frequent watering required"
-7,876 Spruce Ln,2600,2022-07-05,"Fertilization needed every 3 months"
-8,543 Birch Dr,1700,2022-05-15,"Regular pest control necessary"
-9,210 Willow St,3300,2022-07-25,"Playground area to be avoided during mowing"
-10,987 Walnut Ave,2000,2022-06-01,"Drought-resistant grass, minimal watering needed"
+id,address,size,type,date_added,notes
+1,123 Main St,2500,Residential,2022-05-10,"Corner lot, needs extra care"
+2,456 Elm St,1800,Commercial,2022-06-15,"Shady area, watch out for tree roots"
+3,789 Oak Ave,3200,Residential,2022-07-01,"Large backyard, no pets allowed"
+4,987 Pine St,1500,Commercial,2022-05-05,"Sloping terrain, use caution when mowing"
+5,654 Maple Ave,2100,Residential,2022-07-20,"Garden area needs special attention"
+6,321 Cedar Rd,2900,Commercial,2022-06-10,"Frequent watering required"
+7,876 Spruce Ln,2600,Residential,2022-07-05,"Fertilization needed every 3 months"
+8,543 Birch Dr,1700,Commercial,2022-05-15,"Regular pest control necessary"
+9,210 Willow St,3300,Residential,2022-07-25,"Playground area to be avoided during mowing"
+10,987 Walnut Ave,2000,Commercial,2022-06-01,"Drought-resistant grass, minimal watering needed"
+
+11,ssss 333,333,2200-10-10,residential,dddd
+12,436 e lawn,5666,1222-12-12,residential,fff
+13,436 e lawn,5666,1222-12-12,residential,fff

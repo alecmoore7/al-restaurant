@@ -1,5 +1,6 @@
 import csv
 from flask import Flask, render_template, request, redirect, url_for
+import datetime
 
 app = Flask(__name__)
 
@@ -21,6 +22,24 @@ def write_csv_file(file_path, fieldnames, data):
         writer.writeheader()
         writer.writerows(data)
 
+def get_last_lawn_id():
+    """Get the ID of the last lawn in the dataset."""
+    lawns = read_csv_file(LAWNS_PATH)
+    if lawns:
+        last_lawn_id = int(lawns[-1]['id'])
+    else:
+        last_lawn_id = 0
+    return last_lawn_id
+
+def get_last_employee_id():
+    """Get the ID of the last employee in the dataset."""
+    employees = read_csv_file(EMPLOYEES_PATH)
+    if employees:
+        last_employee_id = int(employees[-1]['employee_id'])
+    else:
+        last_employee_id = 0
+    return last_employee_id
+
 @app.route('/')
 def index():
     """ Renders the index page with basic information and navigation buttons."""
@@ -29,25 +48,27 @@ def index():
 
 @app.route('/employees/')
 def employees():
-    """ Renders the employees page with a list of employees sorted by start date."""
-    with open(EMPLOYEES_PATH, 'r') as file:
-        reader = csv.DictReader(file)
-        employees = sorted(list(reader), key=lambda x: x['employment_start_date'], reverse=True)
+    """Renders the employees page with a list of employees sorted by start date."""
+    employees = read_csv_file(EMPLOYEES_PATH)
+
+    for emp in employees:
+        emp['employment_start_date'] = datetime.datetime.strptime(emp['employment_start_date'], '%Y-%m-%d') if emp['employment_start_date'] else None
+
+    # Sort employees by 'employment_start_date', handle None values using lambda x: x or datetime(1970, 1, 1)
+    employees = sorted(employees, key=lambda x: x['employment_start_date'] or datetime.datetime(1970, 1, 1), reverse=True)
+
     return render_template("employees.html", employees=employees)
 
 
-@app.route('/employees/<employee_id>/')
+@app.route('/employees/<employee_id>/', endpoint='employee_details')
 def employee(employee_id):
     """ Renders the employee details page for the given employee ID."""
-    with open(EMPLOYEES_PATH, 'r') as file:
-        reader = csv.DictReader(file)
-    for emp in reader:
-            if emp['employee_id'] == employee_id:
-                employee = emp
-                break
-    else:
-            employee = None
-            
+    employees = read_csv_file(EMPLOYEES_PATH)
+    employee = None
+    for emp in employees:
+        if emp['employee_id'] == employee_id:
+            employee = emp
+            break
     return render_template("employee.html", employee=employee)
 
 
@@ -64,43 +85,74 @@ def customers():
     
     return render_template('customers.html', customers=customers)
 
+
 @app.route('/lawns/')
 def lawns():
     """Renders the lawns page with a list of lawns sorted by size."""
     with open(LAWNS_PATH, 'r') as file:
         reader = csv.DictReader(file)
-        lawns = sorted(list(reader), key=lambda x: int(x['size']), reverse=True)
+        lawns = list(reader)
+
+    for lawn in lawns:
+        lawn['size'] = int(lawn['size'])
+
+    lawns = sorted(lawns, key=lambda x: x['size'], reverse=True)
+
     return render_template("lawns.html", lawns=lawns)
 
 
-@app.route('/lawns/<lawn_id>/')
+@app.route('/lawns/<lawn_id>/', endpoint='lawn_details')
 def lawn(lawn_id):
     """ Renders the lawn details page for the given lawn ID."""
     lawns = read_csv_file(LAWNS_PATH)
-    for lawn in lawns:
-        if lawn['id'] == lawn_id:
+    
+    lawn = None
+    for lawn_data in lawns:
+        if lawn_data['id'] == str(lawn_id):  # Convert lawn_id to a string for comparison
+            lawn = lawn_data
             break
-        else:
-            lawn = None
+
+    if lawn is None:
+        return f"Lawn with ID {lawn_id} not found."
+
     return render_template("lawn.html", lawn=lawn)
 
 
 @app.route('/lawns/create/', methods=['GET', 'POST'])
 def create_lawn():
-    """ Displays form to create a new lawn and adds the data to 'lawns.csv', then redirects to the '/lawns/' route after successful input."""
     if request.method == 'POST':
         address = request.form['address']
-        size = request.form['size']
+        size_str = request.form['size']
         date_added = request.form['date_added']
-        lawn_type = request.form['type']
+        lawn_type = request.form['lawn_type']
         notes = request.form['notes']
+        try:
+            size = int(size_str)  # Convert size to int only when necessary
+        except ValueError:
+            size = None  # Or handle the error based on your requirements
+
+        # Generate a new lawn ID
+        last_lawn_id = get_last_lawn_id()
+        new_lawn_id = last_lawn_id + 1
+
+        new_lawn = {
+            'id': str(new_lawn_id),
+            'address': address,
+            'size': size,
+            'date_added': date_added,
+            'type': lawn_type,
+            'notes': notes,
+        }
 
         with open(LAWNS_PATH, 'a', newline='') as csvfile:
-            fieldnames = ['address', 'size', 'date_added', 'type', 'notes']
+            fieldnames = ['id', 'address', 'size', 'date_added', 'type', 'notes']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow({'address': address, 'size': size, 'date_added': date_added, 'type': lawn_type, 'notes': notes})
+            if csvfile.tell() == 0:
+                writer.writeheader()
+            writer.writerow(new_lawn)
 
-        return redirect(url_for('lawn'))
+        return redirect(url_for('lawns'))
+
     return render_template('lawn_form.html')
 
 @app.route('/lawns/<int:lawn_id>/edit/', methods=['GET', 'POST'])
@@ -108,21 +160,27 @@ def edit_lawn(lawn_id):
     """ Displays form to edit an existing lawn and updates the data in 'lawns.csv', then redirects to the '/lawns/<lawn_id>/' route after successful input."""
     with open(LAWNS_PATH, 'r') as file:
         reader = csv.DictReader(file)
-        for lawn in reader:
-            if lawn['id'] == lawn_id:
-                break
-        else:
-            lawn = None
+        lawns = list(reader)
+
+    lawn = None
+    for l in lawns:
+        if l['id'] == str(lawn_id):
+            lawn = l
+            break
 
     if lawn is None:
         return f"Lawn with ID {lawn_id} not found."
 
     if request.method == 'POST':
         address = request.form['address']
-        size = request.form['size']
+        size_str = request.form['size']
         date_added = request.form['date_added']
-        lawn_type = request.form['type']
+        lawn_type = request.form['lawn_type']
         notes = request.form['notes']
+        try:
+            size = int(size_str)  # Convert size to int only when necessary
+        except ValueError:
+            size = lawn['size']
 
         with open(LAWNS_PATH, 'r', newline='') as csvfile:
             fieldnames = ['id', 'address', 'size', 'date_added', 'type', 'notes']
@@ -132,7 +190,7 @@ def edit_lawn(lawn_id):
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             for row in rows:
-                if row['id'] == lawn_id:
+                if row['id'] == str(lawn_id):
                     row['address'] = address
                     row['size'] = size
                     row['date_added'] = date_added
@@ -143,30 +201,42 @@ def edit_lawn(lawn_id):
         return redirect(url_for('lawn', lawn_id=lawn_id))
     return render_template('lawn_form.html', lawn=lawn)
 
+if __name__ == "__main__":
+    app.run(debug=True)
+
 @app.route('/employees/create/', methods=['GET', 'POST'])
 def create_employee():
     """ Displays form to create a new employee and adds the data to 'employees.csv', then redirects to the '/employees/' route after successful input."""
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
+        title = request.form['title']
         address = request.form['address']
         email = request.form['email']
         date_of_birth = request.form['date_of_birth']
         phone = request.form['phone']
-        title = request.form['title']
+
+        # Generate a new employee ID
+        last_employee_id = get_last_employee_id()
+        new_employee_id = last_employee_id + 1
+
+        new_employee = {
+            'employee_id': str(new_employee_id),
+            'first_name': first_name,
+            'last_name': last_name,
+            'title': title,
+            'address': address,
+            'email': email,
+            'date_of_birth': date_of_birth,
+            'phone': phone,
+        }
 
         with open(EMPLOYEES_PATH, 'a', newline='') as csvfile:
-            fieldnames = ['first_name', 'last_name', 'address', 'email', 'date_of_birth', 'phone', 'title']
+            fieldnames = ['employee_id', 'first_name', 'last_name', 'title', 'address', 'email', 'date_of_birth', 'phone']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow({
-                'first_name': first_name,
-                'last_name': last_name,
-                'address': address,
-                'email': email,
-                'date_of_birth': date_of_birth,
-                'phone': phone,
-                'title': title
-            })
+            if csvfile.tell() == 0:
+                writer.writeheader()
+            writer.writerow(new_employee)
 
         return redirect(url_for('employees'))
     return render_template('employee_form.html')
@@ -177,11 +247,13 @@ def edit_employee(employee_id):
     """Displays form to edit an existing employee and updates the data in 'employees.csv', then redirects to the '/employees/<employee_id>/' route after successful input."""
     with open(EMPLOYEES_PATH, 'r') as file:
         reader = csv.DictReader(file)
-        for emp in reader:
-            if emp['employee_id'] == employee_id:
-                break
-        else:
-            emp = None
+        employees = list(reader)
+
+    employee = None
+    for emp in employees:
+        if emp['employee_id'] == str(employee_id):
+            employee = emp
+            break
 
     if employee is None:
         return f"Employee with ID {employee_id} not found."
