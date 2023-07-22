@@ -48,30 +48,20 @@ def index():
 
 @app.route('/employees/', methods=['GET', 'POST'])
 def employees():
-    if request.method == 'POST':
-        pass
-    else:
-        with open(EMPLOYEES_PATH, 'r') as file:
-            reader = csv.DictReader(file)
-            employees = list(reader)
-
-        # Sort the employees by start_date in descending order
-        employees = sorted(employees, key=lambda e: datetime.datetime.strptime(e.get('start_date', '1900-01-01'), '%Y-%m-%d'), reverse=True)
-
-        return render_template('employees.html', employees=employees)
-
+    """Renders the employees page with a list of employees sorted by start date."""
+    with open(EMPLOYEES_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        employees = sorted(list(reader), key=lambda x: x['start_date'], reverse=True)
+    return render_template("employees.html", employees=employees)
 
 
 @app.route('/employees/<employee_id>/', methods=['GET', 'POST'])
 def employee(employee_id):
-    """ Renders the employee details page for the given employee ID."""
+    """Renders the employee details page for the given employee ID."""
     with open(EMPLOYEES_PATH, 'r') as file:
         reader = csv.DictReader(file)
-        employees = list(reader)
-
-    employee = next((e for e in employees if e['employee_id'] == employee_id), None)
-
-    return render_template('employee.html', employee=employee)
+        employee = next((emp for emp in reader if emp['employee_id'] == employee_id), None)
+    return render_template("employee.html", employee=employee)
 
 @app.route('/customers/', methods=['GET', 'POST'])
 def customers():
@@ -92,30 +82,16 @@ def lawns():
     """Renders the lawns page with a list of lawns sorted by size."""
     with open(LAWNS_PATH, 'r') as file:
         reader = csv.DictReader(file)
-        lawns = list(reader)
-
-    for lawn in lawns:
-        lawn['size'] = int(lawn['size'])
-
-    lawns = sorted(lawns, key=lambda x: x['size'], reverse=True)
-
+        lawns = sorted(list(reader), key=lambda x: int(x['size']), reverse=True)
     return render_template("lawns.html", lawns=lawns)
 
 
-@app.route('/lawns/<int:lawn_id>/edit/', methods=['GET', 'POST'])
+@app.route('/lawns/<int:lawn_id>', methods=['GET', 'POST'])
 def lawn(lawn_id):
-    """ Renders the lawn details page for the given lawn ID."""
-    lawns = read_csv_file(LAWNS_PATH)
-    
-    lawn = None
-    for lawn_data in lawns:
-        if lawn_data['lawn_id'] == str(lawn_id):  # Convert lawn_id to a string for comparison
-            lawn = lawn_data
-            break
-
-    if lawn is None:
-        return f"Lawn with ID {lawn_id} not found."
-
+    """Renders the lawn details page for the given lawn ID."""
+    with open(LAWNS_PATH, 'r') as file:
+        reader = csv.DictReader(file)
+        lawn = next((l for l in reader if l['lawn_id'] == lawn_id), None)
     return render_template("lawn.html", lawn=lawn)
 
 
@@ -125,7 +101,7 @@ def create_lawn():
         address = request.form['address']
         size_str = request.form['size']
         date_added = request.form['date_added']
-        lawn_type = request.form['lawn_type']
+        type = request.form['type']
         notes = request.form['notes']
         try:
             size = int(size_str)  # Convert size to int only when necessary
@@ -141,7 +117,7 @@ def create_lawn():
             'address': address,
             'size': size,
             'date_added': date_added,
-            'lawn_type': lawn_type,
+            'type': type,
             'notes': notes,
         }
 
@@ -176,7 +152,7 @@ def edit_lawn(lawn_id):
         address = request.form['address']
         size_str = request.form['size']
         date_added = request.form['date_added']
-        lawn_type = request.form['lawn_type']
+        type = request.form['type']
         notes = request.form['notes']
         try:
             size = int(size_str)  # Convert size to int only when necessary
@@ -195,7 +171,7 @@ def edit_lawn(lawn_id):
                     row['address'] = address
                     row['size'] = size
                     row['date_added'] = date_added
-                    row['type'] = lawn_type
+                    row['type'] = type
                     row['notes'] = notes
                 writer.writerow(row)
 
@@ -209,6 +185,7 @@ if __name__ == "__main__":
 def create_employee():
     """ Displays form to create a new employee and adds the data to 'employees.csv', then redirects to the '/employees/' route after successful input."""
     if request.method == 'POST':
+        start_date = request.form.get('start_date', '1900-01-01')
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         title = request.form['title']
@@ -216,6 +193,7 @@ def create_employee():
         email = request.form['email']
         date_of_birth = request.form['date_of_birth']
         phone = request.form['phone']
+        start_date = request.form['start_date']
 
         # Generate a new employee ID
         last_employee_id = get_last_employee_id()
@@ -230,6 +208,7 @@ def create_employee():
             'email': email,
             'date_of_birth': date_of_birth,
             'phone': phone,
+            'start_date': start_date,
         }
 
         with open(EMPLOYEES_PATH, 'a', newline='') as csvfile:
