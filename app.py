@@ -46,24 +46,26 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/employees/')
+@app.route('/employees/', methods=['GET', 'POST'])
 def employees():
-    """Read the employee data from the CSV file"""
-    with open(EMPLOYEES_PATH, 'r') as file:
-        reader = csv.DictReader(file)
-        employees = list(reader)
+    if request.method == 'POST':
+        pass
+    else:
+        with open(EMPLOYEES_PATH, 'r') as file:
+            reader = csv.DictReader(file)
+            employees = list(reader)
 
-    # Sort the employees by start_date in descending order
-    employees = sorted(employees, key=lambda e: e['employment,start_date'], reverse=True)
+        # Sort the employees by start_date in descending order
+        employees = sorted(employees, key=lambda e: e['employment_start_date'], reverse=True)
 
-    return render_template('employees.html', employees=employees)
+        return render_template('employees.html', employees=employees)
 
 
 
 @app.route('/employees/<employee_id>/')
 def employee(employee_id):
     """ Renders the employee details page for the given employee ID."""
-    with open('employees.csv', 'r') as file:
+    with open('EMPLOYEES_PATH', 'r') as file:
         reader = csv.DictReader(file)
         employees = list(reader)
 
@@ -100,7 +102,7 @@ def lawns():
     return render_template("lawns.html", lawns=lawns)
 
 
-@app.route('/lawns/<lawn_id>/', endpoint='lawn_details')
+@app.route('/lawns/<int:lawn_id>/edit/', methods=['GET', 'POST'])
 def lawn(lawn_id):
     """ Renders the lawn details page for the given lawn ID."""
     lawns = read_csv_file(LAWNS_PATH)
@@ -197,8 +199,8 @@ def edit_lawn(lawn_id):
                     row['notes'] = notes
                 writer.writerow(row)
 
-        return redirect(url_for('lawn', lawn_id=lawn_id))
-    return render_template('lawn_form.html', lawn=lawn)
+        return redirect(url_for('lawn'))
+    return render_template('lawn.html', lawn=lawn)
 
 if __name__ == "__main__":
     app.run(debug=True)
