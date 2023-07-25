@@ -1,7 +1,15 @@
 from flask import Flask, render_template, redirect, url_for, request
 import csv  # Used for reading and writing event data via csv.
+from os.path import exists 
+
 
 app = Flask(__name__)
+
+app.config.from_pyfile(app.root_path + '/config_defaults.py')
+if exists(app.root_path + '/config.py'):
+    app.config.from_pyfile(app.root_path + '/config.py')
+
+import database
 
 #Globals for handling csv read/write on server
 LAWN_PATH = app.root_path + '/lawns.csv'
@@ -13,69 +21,24 @@ EMPLOYEE_KEYS = ['name','address','email','dob','phone','start_date','title']
 
 def get_lawns():
     #create new list to hold the dictionaries
-    results = []
-    try:
-        with open(LAWN_PATH) as csv_file:
-            reader = csv.DictReader(csv_file)
-            results = list(reader)
-    except Exception as err:
-        print(err)
-    #return our data as a list of dictionaries
-    return results
+    return database.get_lawns()
 
 def set_lawns(lawns):
-    try:
-        with open(LAWN_PATH, mode='w', newline='') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=LAWN_KEYS)
-            writer.writeheader()
-            for lawn in lawns:
-                writer.writerow(lawn)
-    except Exception as err:
-        print(err)
+    database.set_lawns(lawns)
 
 def get_customers():
     #create new list to hold the dictionaries
-    results = []
-    try:
-        with open(CUSTOMER_PATH) as csv_file:
-            reader = csv.DictReader(csv_file)
-            results = list(reader)
-    except Exception as err:
-        print(err)
-    #return our data as a list of dictionaries
-    return results
+    return database.get_customers()
 
 def set_customers(customers):
-    try:
-        with open(CUSTOMER_PATH, mode='w', newline='') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=CUSTOMER_KEYS)
-            writer.writeheader()
-            for customer in customers:
-                writer.writerow(customer)
-    except Exception as err:
-        print(err)
+    database.set_customers(customers)
 
 def get_employees():
     #create new list to hold the dictionaries
-    results = []
-    try:
-        with open(EMPLOYEE_PATH) as csv_file:
-            reader = csv.DictReader(csv_file)
-            results = list(reader)
-    except Exception as err:
-        print(err)
-    #return our data as a list of dictionaries
-    return results
+    return database.get_employees()
 
 def set_employees(employees):
-    try:
-        with open(EMPLOYEE_PATH, mode='w', newline='') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=EMPLOYEE_KEYS)
-            writer.writeheader()
-            for employee in employees:
-                writer.writerow(employee)
-    except Exception as err:
-        print(err)
+    database.set_employees(employees)
 
 @app.route('/')
 def index():
