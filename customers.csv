@@ -1,4 +1,4 @@
-name,address,email,date_of_birth,phone
+name,address,email,dob,phone
 Vincent Moore,123 Main St,vincentmoore@example.com,1978-05-15,123-456-7890
 Jack Mcgillicuddy,456 Elm St,jmcgill@example.com,1982-09-10,987-654-3210
 Michael James,789 Oak Ave,mjames@example.com,1990-03-25,456-789-0123

@@ -1,46 +1,105 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Create Employee{% endblock %}
+{% block title %}
+    {% if employee %}
+        Edit an Employee
+    {% else %}
+        Add a new Employee
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-  <h1 class="display-4">Create Employee</h1>
+{% if employee %}
+    {% set name = employee['name'] %}
+    {% set address = employee['address'] %}
+    {% set email = employee['email'] %}
+    {% set dob = employee['dob'] %}
+    {% set phone = employee['phone'] %}
+    {% set start_date = employee['start_date'] %}
+    {% set title = employee['title'] %}
+    <h2>Edit employee: {{ name }}</h2>
+{% else %}
+    {% set name = '' %}
+    {% set address = '' %}
+    {% set email = '' %}
+    {% set dob = '' %}
+    {% set phone = '' %}
+    {% set start_date = '' %}
+    {% set title = '' %}
+    <h2>Create a new employee:</h2>
+{% endif %}
 
-  <form method="post">
-    <div class="mb-3">
-      <label for="first_name" class="form-label">First Name:</label>
-      <input type="text" class="form-control" id="first_name" name="first_name" required>
+<form method="POST" name="event_form" class="container">
+    <div class="row my-2">
+        <div class="col-md-2 text-nowrap text-end">
+            <label for="address">Name:</label>
+        </div>
+        <div class="col">
+            <input type="text" id="name" name="name" value="{{name}}" size="60" />
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="last_name" class="form-label">Last Name:</label>
-      <input type="text" class="form-control" id="last_name" name="last_name" required>
+    <div class="row my-2">
+        <div class="col-md-2 text-nowrap text-end">
+            <label for="address">Address:</label>
+        </div>
+        <div class="col">
+            <input type="text" id="address" name="address" value="{{address}}" size="60" />
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="title" class="form-label">Title:</label>
-      <input type="text" class="form-control" id="title" name="title" required>
+    <div class="row my-2">
+        <div class="col-md-2 text-end">
+            <label for="size">Email:</label>
+        </div>
+        <div class="col">
+            <input type="text" id="email" name="email" value="{{email}}" size="40" />
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="address" class="form-label">Address:</label>
-      <input type="text" class="form-control" id="address" name="address" required>
+    <div class="row my-2">
+        <div class="col-md-2 text-nowrap text-end">
+            <label for="address">phone:</label>
+        </div>
+        <div class="col">
+            <input type="tel" id="phone" name="phone" value="{{phone}}" size="60" />
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email:</label>
-      <input type="email" class="form-control" id="email" name="email" required>
+    <div class="row my-2">
+        <div class="col-md-2 text-end">
+            <label for="dob">Date of Birth:</label>
+        </div>
+        <div class="col">
+            <input type="date" id="dob" name="dob" 
+            value="{{ dob }}"
+            size="40" />
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="phone" class="form-label">Phone:</label>
-      <input type="tel" class="form-control" id="phone" name="phone" required>
+    <div class="row my-2">
+        <div class="col-md-2 text-end">
+            <label for="start_date">Start Date:</label>
+        </div>
+        <div class="col">
+            <input type="date" id="" name="start_date" 
+            value="{{ start_date }}"
+            size="40" />
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="date_of_birth" class="form-label">Date of Birth:</label>
-      <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+    <div class="row my-2">
+        <div class="col-md-2 text-end">
+            <label for="title">Job Title:</label>
+        </div>
+        <div class="col">
+            <select name="title" id="title">
+                <option {% if title=="crew lead" %}selected{% endif %} value="crew lead">
+                    Crew Lead
+                </option>
+                <option {% if title=="crew member" %}selected{% endif %} value="crew member">
+                    Crew Member
+                </option>
+            </select>
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="start_date" class="form-label">Start Date:</label>
-      <input type="date" class="form-control" id="start_date" name="start_date" required>
+    <div class="my-2 text-center">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="reset" value="Reset" class="btn btn-secondary" />
     </div>
-    <div class="mb-3">
-      <button type="submit" class="btn btn-primary">Submit</button>
-      <button type="reset" class="btn btn-secondary">Reset</button>
-    </div>
-  </form>
+</form>
 {% endblock %}

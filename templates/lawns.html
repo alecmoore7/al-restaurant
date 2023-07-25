@@ -1,32 +1,46 @@
-{% extends "base.html" %}
-
-{% block title %}Happy Lawns Listing{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-  <h1 class="display-4">Happy Lawns Listing</h1>
 
-  <a class="btn btn-primary mb-3" href="{{ url_for('create_lawn') }}">Create New Lawn</a>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Address</th>
-        <th>Size (sqft)</th>
-        <th>Type</th>
-        <th>Date Added</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for lawn in lawns %}
-        <tr>
-          <td><a href="{{ url_for('lawn', lawn_id=lawn['lawn_id']) }}">{{ lawn['address'] }}</a></td>
-          <td>{{ lawn['size'] }}</td>
-          <td>{{ lawn['type'] }}</td>
-          <td>{{ lawn['date_added'] }}</td>
-          <td>{{ lawn['notes'] }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container">
+<ul>
+    <div class="row">
+        <div class="col-4">
+            
+        </div>
+        <div class="col-5">
+            <img class="mb-5" width="150" src="{{ url_for('static', filename='images/HappyLawnsLogo.png') }}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            
+        </div>
+        <div class="col-6">
+            <h2>Happy Lawns Listing</h2>
+        </div>
+    </div>
+    
+    <li class="row pb-sm-3 pb-md-0">
+        <div class="col-2"> </div>
+        <div class="col-md-4 text-nowrap"><strong>Address</strong></div>
+        <div class="col-md-1 text-nowrap"><strong>Size</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Date Added</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Type</strong></div>
+    </li>
+{% for lawn in lawns: %}
+    <li class="row pb-sm-3 pb-md-0">
+        <div class="col-2"> </div>
+        <div class="col-md-4"><a href="{{ url_for('view_lawn', lawn_id=lawns.index(lawn)) }}">{{ lawn['address'] }}</a></div>
+        <div class="col-md-1 text-nowrap">{{ lawn['size'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ lawn['date_added'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ lawn['type'] }}</div>
+    </li>
+{% endfor %}
+</ul>
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-3 my-2"><a class="btn btn-primary" href="{{ url_for('create_lawn') }}">Add a Lawn!</a></div>
+    </div>
+</div>   
 {% endblock %}

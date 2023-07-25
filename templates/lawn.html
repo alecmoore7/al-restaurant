@@ -1,39 +1,46 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Lawn Details{% endblock %}
+{% block title %} {{ lawn['address'] }} {% endblock %}
 
 {% block content %}
-  <h1 class="display-4">Lawn Details</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <img class="mb-4" width="150" src="{{ url_for('static', filename='images/HappyLawnsLogo.png') }}">
+        </div>
+    </div>
 
-  <table class="table">
-    <tbody>
-      <tr>
-        <th>Lawn ID:</th>
-        <td>{{ lawn['lawn_id'] }}</td>
-      </tr>
-      <tr>
-        <th>Address:</th>
-        <td>{{ lawn['address'] }}</td>
-      </tr>
-      <tr>
-        <th>Size:</th>
-        <td>{{ lawn['size'] }}</td>
-      </tr>
-      <tr>
-        <th>Date Added:</th>
-        <td>{{ lawn['date_added'] }}</td>
-      </tr>
-      <tr>
-        <th>Type:</th>
-        <td>{{ lawn['type'] }}</td>
-      </tr>
-      <tr>
-        <th>Notes:</th>
-        <td>{{ lawn['notes'] }}</td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-2 bg-light"><strong>Address:</strong></div>
+        <div class="col-3 bg-light">{{ lawn['address'] }}</div>
+        </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-2"><strong>Size</strong></div>
+        <div class="col-3">{{ lawn['size'] }} square feet</div>
+        </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-2 bg-light"><strong>Date Added:</strong></div>
+        <div class="col-3 bg-light">{{ lawn['date_added'] }}</div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-2"></div>
+        <div class="col-2"><strong>Lawn Notes:</strong></div>
+        <div class="col-6">
+            {{ lawn['notes'] }}
+        </div>
+    </div>
+</div>
 
-  <a class="btn btn-primary" href="{{ url_for('lawn_form', lawn_id=lawn['lawn_id']) }}">Edit Lawn</a>
-  <a class="btn btn-danger" href="{{ url_for('delete_lawn', lawn_id=lawn['lawn_id']) }}">Delete Lawn</a>
+
+<div class="row mt-5">
+    <div class="col-2"></div>
+    <div class="col-6 ">
+        <a href="{{ url_for('edit_lawn', lawn_id=lawn_id) }}" class="btn btn-primary">Edit this lawn</a>
+         <a href="{{ url_for('delete_lawn', lawn_id=lawn_id) }}" class="btn btn-danger">Delete this lawn</a>
+    </div>
+</div>
 {% endblock %}

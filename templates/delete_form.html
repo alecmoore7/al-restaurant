@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Lawn{% endblock %}
+
+{% block content %}
+<h2 class="text-danger">Delete Lawn: {{ lawn['name'] }}</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-3"><strong>Pet Type:</strong></div>
+        <div class="col">{{ lawn['pet_type'] }}</div>
+        </div>
+    <div class="row">
+        <div class="col-3"><strong>Start Date:</strong></div>
+        <div class="col">{{ lawn['start_date'] }}</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><strong>Start Time:</strong></div>
+        <div class="col">{{ lawn['start_time'] }} sqft</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><strong>Duration:</strong></div>
+        <div class="col">{{ lawn['duration'] }} minutes</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><strong>Lawn Length:</strong></div>
+        <div class="col">{{ lawn['length'] }} weeks</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><strong>Lawn level:</strong></div>
+        <div class="col">{{ lawn['level'] }} </div>
+    </div>
+    <div class="row">
+        <div class="col-3"><strong>Trainer:</strong></div>
+        <div class="col">{{ lawn['trainer'] }} </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-3"><strong>Description:</strong></div>
+        <div class="col">{{ lawn['desc'] }}</div>
+    </div>
+</div>
+<div class="row">
+<div class="col-6 text-center">
+    <a href="{{ url_for('view_lawn', lawn_id=lawn_id) }}" class="btn btn-primary">Back to Lawn Details</a>
+    <a href="{{ url_for('delete_lawn', lawn_id=lawn_id, delete='1') }}" class="btn btn-danger">Really Delete This Lawn</a>
+</div>
+</div>
+{% endblock %}

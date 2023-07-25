@@ -1,36 +1,50 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Employees{% endblock %}
+{% block title %}Happy Lawns Employees {% endblock %}
 
 {% block content %}
-  <h1 class="display-4">Employee List</h1>
 
-  <a class="btn btn-primary mb-3" href="{{ url_for('create_employee') }}">Create New Employee</a>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Email</th>
-        <th>Date of Birth</th>
-        <th>Phone</th>
-        <th>Start Date</th>
-        <th>Title</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for employee in employees %}
-        <tr>
-          <td><a href="{{ url_for('employee', employee_id=employee['employee_id']) }}">{{ employee['first_name'] }} {{ employee['last_name'] }}</a></td>
-          <td>{{ employee['address'] }}</td>
-          <td>{{ employee['email'] }}</td>
-          <td>{{ employee['date_of_birth'] }}</td>
-          <td>{{ employee['phone'] }}</td>
-          <td>{{ employee['start_date'] }}</td>
-          <td>{{ employee['title'] }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container">
+<ul>
+    <div class="row">
+        <div class="col-4">
+            
+        </div>
+        <div class="col-5">
+            <img class="mb-5" width="150" src="{{ url_for('static', filename='images/HappyLawnsLogo.png') }}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            
+        </div>
+        <div class="col-6 mb-4">
+            <h2>Happy Lawns Employees</h2>
+        </div>
+    </div>
+    
+    <li class="row pb-sm-3 pb-md-0">
+        <div class="col-1"> </div>
+        <div class="col-md-2 text-nowrap"><strong>Name</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Job Title</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Email</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Date of Birth</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Phone</strong></div>
+    </li>
+{% for employee in employees %}
+    <li class="row pb-sm-3 pb-md-0">
+        <div class="col-1"> </div>
+        <div class="col-md-2"><a href="{{ url_for('view_employee', employee_id=employees.index(employee)) }}">{{ employee['first_name'] }} {{ employee['last_name'] }}</a></div>
+        <div class="col-md-2 text-nowrap">{{ employee['title'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ employee['email'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ employee['dob'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ employee['phone'] }}</div>
+    </li>
+{% endfor %}
+</ul>
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-3 my-2"><a class="btn btn-primary" href="{{url_for('create_employee')}}">Add an Employee</a></div>
+    </div>
+</div>   
 {% endblock %}

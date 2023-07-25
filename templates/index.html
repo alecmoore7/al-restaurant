@@ -1,19 +1,25 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Happy Lawn Company Home{% endblock %}
+{% block title%}Happy Lawn Company{% endblock %}
 
 {% block content %}
 
-    <div class="container">
-        <div class="jumbotron mt-5">
-            <h1 class="display-4">Welcome to Happy Lawn Company</h1>
-            <p class="lead">Here to provide exceptional lawn assistance for our customers.</p>
-            <img class="img-fluid" src="{{ url_for('static', filename='images/lawnmow.png') }}" alt="Happy Lawn Company Logo">
-            <div class="mt-4">
-                <a href="{{ url_for('lawns') }}" class="btn btn-primary btn-lg">View Lawns</a>
-                <a href="{{ url_for('customers') }}" class="btn btn-primary btn-lg">View Customers</a>
-                <a href="{{ url_for('employees') }}" class="btn btn-primary btn-lg">View Employees</a>
-            </div>
+<div class="container-sm px-4 py-5 my-5 text-center bg-white text-dark bg-opacity-50">
+    <img class="d-block mx-auto mb-2" width="325" src="{{ url_for('static', filename='images/HappyLawnsLogo.png') }}">
+    <h1 class="display-5 fw-bold">Happy Lawn Management Application</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Helping you with your lawn needs for over a decade.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{{ url_for('list_employees') }}">
+                <button type="button" class="btn btn-primary btn-lg px-4 gap-3">See Employees</button>
+            </a>
+            <a href="{{ url_for('list_customers') }}">
+                <button type="button" class="btn btn-primary btn-lg px-4 gap-3">See Customers</button>
+            </a>
+            <a href="{{ url_for('list_lawns') }}">
+                <button type="button" class="btn btn-primary btn-lg px-4 gap-3">See Lawns</button>
+            </a>
         </div>
     </div>
+</div>
 {% endblock %}
