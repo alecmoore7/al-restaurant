@@ -12,22 +12,22 @@
 {% if employee %}
     {% set name = employee['first_name'] %}
     {% set name = employee['last_name'] %}
+    {% set title = employee['title'] %}
     {% set address = employee['address'] %}
     {% set email = employee['email'] %}
     {% set dob = employee['dob'] %}
     {% set phone = employee['phone'] %}
     {% set start_date = employee['start_date'] %}
-    {% set title = employee['title'] %}
     <h2>Edit employee: {{ name }}</h2>
 {% else %}
     {% set first_name = '' %}
-    {% set last_name = employee['name'] %}
+    {% set last_name = '' %}
+    {% set title = '' %}
     {% set address = '' %}
     {% set email = '' %}
     {% set dob = '' %}
     {% set phone = '' %}
     {% set start_date = '' %}
-    {% set title = '' %}
     <h2>Create a new employee:</h2>
 {% endif %}
 
@@ -49,6 +49,21 @@
         </div>
     </div>
     <div class="row my-2">
+        <div class="row my-2">
+            <div class="col-md-2 text-end">
+                <label for="title">Job Title:</label>
+            </div>
+            <div class="col">
+                <select name="title" id="title">
+                    <option {% if title=="crew lead" %}selected{% endif %} value="crew lead">
+                        Crew Lead
+                    </option>
+                    <option {% if title=="crew member" %}selected{% endif %} value="crew member">
+                        Crew Member
+                    </option>
+                </select>
+            </div>
+        </div>
         <div class="col-md-2 text-nowrap text-end">
             <label for="address">Address:</label>
         </div>
@@ -90,21 +105,6 @@
             <input type="date" id="" name="start_date" 
             value="{{ start_date }}"
             size="40" />
-        </div>
-    </div>
-    <div class="row my-2">
-        <div class="col-md-2 text-end">
-            <label for="title">Job Title:</label>
-        </div>
-        <div class="col">
-            <select name="title" id="title">
-                <option {% if title=="crew lead" %}selected{% endif %} value="crew lead">
-                    Crew Lead
-                </option>
-                <option {% if title=="crew member" %}selected{% endif %} value="crew member">
-                    Crew Member
-                </option>
-            </select>
         </div>
     </div>
     <div class="my-2 text-center">

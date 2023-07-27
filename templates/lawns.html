@@ -34,7 +34,7 @@
         <div class="col-md-4"><a href="{{ url_for('view_lawn', lawn_id=lawns.index(lawn)) }}">{{ lawn['address'] }}</a></div>
         <div class="col-md-1 text-nowrap">{{ lawn['size'] }}</div>
         <div class="col-md-2 text-nowrap">{{ lawn['date_added'] }}</div>
-        <div class="col-md-2 text-nowrap">{{ lawn['type'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ lawn['lawn_type'] }}</div>
     </li>
 {% endfor %}
 </ul>

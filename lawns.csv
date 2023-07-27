@@ -1,4 +1,4 @@
-lawn_id,address,size,type,date_added,notes
+lawn_id,address,size,lawn_type,date_added,notes
 1,123 Main St,2500,Residential,2022-05-10,"Corner lot, needs extra care"
 2,456 Elm St,1800,Commercial,2022-06-15,"Shady area, watch out for tree roots"
 3,789 Oak Ave,3200,Residential,2022-07-01,"Large backyard, no pets allowed"

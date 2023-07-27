@@ -14,14 +14,14 @@
     {% set size = lawn['size'] %}
     {% set date_added = lawn['date_added'] %}
     {% set notes = lawn['notes'] %}
-    {% set type = lawn['type'] %}
+    {% set lawn_type = lawn['lawn_type'] %}
     <h2>Edit lawn: {{ address }}</h2>
 {% else %}
     {% set address = '' %}
     {% set size = '' %}
     {% set date_added = '' %}
     {% set notes = '' %}
-    {% set type = '' %}
+    {% set lawn_type = '' %}
     <h2>Create a new lawn:</h2>
 {% endif %}
 
@@ -44,14 +44,14 @@
     </div>
     <div class="row my-2">
         <div class="col-md-2 text-end">
-            <label for="type">Property Type:</label>
+            <label for="lawn_type">Property Type:</label>
         </div>
         <div class="col">
-            <select name="type">
-                <option {% if type=="residential" %}selected{% endif %} value="residential">
+            <select name="lawn_type">
+                <option {% if lawn_type=="residential" %}selected{% endif %} value="residential">
                     Residential
                 </option>
-                <option {% if type=="commercial" %}selected{% endif %} value="commercial">
+                <option {% if lawn_type=="commercial" %}selected{% endif %} value="commercial">
                     Commercial
                 </option>
             </select>
