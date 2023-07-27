@@ -1,7 +1,7 @@
 import pymysql
 
 # Uncomment the following line when you start project 3.2:
-# from app import app
+from app import app
 
 def get_connection():
     return pymysql.connect(
@@ -52,7 +52,7 @@ def lawn_owner(customer_id, lawn_id):
             cursor.execute(sql, (customer_id, lawn_id))
         connection.commit()
 
-def get_lawns(customer_id):
+def get_lawns_customers(customer_id):
     '''Returns a list of dictionaries representing all of the lawns owned/managed by the customer with primary key of customer_id'''
     with get_connection() as connection:
         with connection.cursor() as cursor:

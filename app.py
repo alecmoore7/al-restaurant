@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
 import csv  # Used for reading and writing event data via csv.
 from os.path import exists 
-
+import html
 
 app = Flask(__name__)
 
