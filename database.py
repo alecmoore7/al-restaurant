@@ -35,7 +35,8 @@ def get_lawn(lawn_id):
         print("Error: ", e)
         lawn = None
     finally:
-        connection.close()
+        if connection:
+            connection.close()
     return lawn
 
 def add_lawn(lawn):
@@ -50,7 +51,8 @@ def add_lawn(lawn):
     except Exception as e:
         print("Error: ", e)
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 
 
 def update_lawn(lawn_id, lawn):
@@ -65,7 +67,8 @@ def update_lawn(lawn_id, lawn):
     except Exception as e:
         print("Error: ", e)
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 
 def lawn_owner(customer_id, lawn_id):
     '''Adds an entry into the database that the lawn with primary key lawn_id is owned/managed by the customer with customer_id'''
@@ -79,7 +82,8 @@ def lawn_owner(customer_id, lawn_id):
     except Exception as e:
         print("Error: ", e)
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 
 def get_lawns_customers(customer_id):
     '''Returns a list of dictionaries representing all of the lawns owned/managed by the customer with primary key of customer_id'''
@@ -93,7 +97,8 @@ def get_lawns_customers(customer_id):
     except Exception as e:
         print("Error: ", e)
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 
 def get_owner(lawn_id):
     '''Returns a dictionary with the data for the owner of the lawn with primary key lawn_id'''
@@ -107,7 +112,8 @@ def get_owner(lawn_id):
         print ("error: ", e)
         owner = None
     finally:
-        connection.close
+        if connection:
+            connection.close()
     return owner
     
 
@@ -136,7 +142,8 @@ def add_customer(customer):
     except Exception as e:
         print("Error: ", e)
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 
 def get_employees():
     '''Returns a list of dictionaries representing all of the employees data'''
@@ -164,7 +171,8 @@ def get_employee(employee_id):
         print("Error: ", e)
         employee = None
     finally:
-        connection.close()
+        if connection:
+            connection.close()
     return employee
 
 def add_employee(employee):
@@ -179,7 +187,8 @@ def add_employee(employee):
     except Exception as e:
         print("Error: ", e)
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 
 def update_employee(employee_id, employee):
     '''Takes an employee_id and data for an employee. Updates the employees table with new data for the employee with employee_id as its primary key'''
@@ -193,7 +202,8 @@ def update_employee(employee_id, employee):
     except Exception as e:
         print("Error: ", e)
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 if __name__ == '__main__':
     # add more test code here to make sure all your functions are working correctly
     try:
