@@ -10,24 +10,24 @@
 
 {% block content %}
 {% if employee %}
-    {% set name = employee['first_name'] %}
-    {% set name = employee['last_name'] %}
-    {% set title = employee['title'] %}
+    {% set first_name = employee['first_name'] %}
+    {% set last_name = employee['last_name'] %}
     {% set address = employee['address'] %}
     {% set email = employee['email'] %}
     {% set dob = employee['dob'] %}
     {% set phone = employee['phone'] %}
     {% set start_date = employee['start_date'] %}
-    <h2>Edit employee: {{ name }}</h2>
+    {% set title = employee['title'] %}
+    <h2>Edit employee: {{ first_name }} {{ last_name }}</h2>
 {% else %}
     {% set first_name = '' %}
     {% set last_name = '' %}
-    {% set title = '' %}
     {% set address = '' %}
     {% set email = '' %}
     {% set dob = '' %}
     {% set phone = '' %}
     {% set start_date = '' %}
+    {% set title = '' %}
     <h2>Create a new employee:</h2>
 {% endif %}
 

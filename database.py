@@ -89,7 +89,7 @@ def get_employees():
     conn = get_connection()
     with conn:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM employees")
+            cursor.execute("SELECT * FROM employees ORDER BY last_name")
             return cursor.fetchall()
 
 def get_employee(employee_id):
@@ -100,13 +100,13 @@ def get_employee(employee_id):
             cursor.execute("SELECT * FROM employees WHERE id = %s", (employee_id,))
             return cursor.fetchone()
 
-def add_employee(employee):
+def add_employee(first_name, last_name, address, email, dob, phone, start_date, title):
     '''Takes as input all of the data for an employee. Inserts a new employee into the employees table'''
     conn = get_connection()
     with conn:
         with conn.cursor() as cursor:
-            sql = "INSERT INTO employees (first_name, last_name, title, address, email, phone, dob, start_date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql, (employee['first_name'], employee['last_name'], employee['title'], employee['address'], employee['email'],employee['phone'], employee['dob'], employee['start_date']))
+            sql = "INSERT INTO employees (first_name, last_name, address, email, dob, phone, start_date, title) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (first_name, last_name, address, email, dob, phone, start_date, title))
         conn.commit()
 
 def update_employee(employee_id, employee):

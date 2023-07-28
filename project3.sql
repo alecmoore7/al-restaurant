@@ -1,19 +1,27 @@
-DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS land_owners;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS lawns;
-DROP TABLE IF EXISTS land_owners;
+DROP TABLE IF EXISTS employees;
 
 CREATE TABLE employees (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    address VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    dob DATE NOT NULL,
-    phone VARCHAR(15) NOT NULL,
-    start_date DATE NOT NULL,
-    title VARCHAR(50) NOT NULL
-);
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    address VARCHAR(100),
+    email VARCHAR(100),
+    dob DATE,
+    phone VARCHAR(15),
+    start_date DATE,
+    title VARCHAR(50),
+) ENGINE=INNODB;
+
+
+INSERT INTO employees (first_name, last_name, address, email, dob, phone, start_date, title) VALUES
+('James', 'Dill', '123 John St', 'jamesdill@example.com', '1990-01-01', '123-456-7890', '2020-01-01', 'Manager'),
+('Jane', 'Smith', '784 Oak Ave', 'jane.smith@example.com', '1985-05-10', '987-654-3210', '2018-05-01', 'Assistant'),
+('Gary', 'Davies', '981 Elm Rd', 'gary.davies@example.com', '1993-09-15', '555-888-7777', '2019-11-20', 'Supervisor'),
+('Emily', 'Johnson', '456 Pine St', 'emily.johnson@example.com', '1998-12-05', '444-999-3333', '2022-03-10', 'Technician'),
+('Michael', 'Brown', '876 Oak Ave', 'michael.brown@example.com', '1996-07-30', '777-222-1111', '2021-06-15', 'Analyst');
 
 CREATE TABLE customers (
     id INT AUTO_INCREMENT PRIMARY KEY,

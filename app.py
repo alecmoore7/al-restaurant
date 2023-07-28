@@ -30,8 +30,6 @@ def load_customers():
 def load_lawns():
     return database.get_lawns()
 
-def load_employees():
-    return database.get_employees()
 
 @app.route('/lawns/')
 def list_lawns():
@@ -39,10 +37,10 @@ def list_lawns():
     lawns= sorted(lawns, key=lambda e: e['size'], reverse=True)
     return render_template('lawns.html', lawns=lawns)
 
-@app.route('/employees/')
+@app.route('/employees')
 def list_employees():
-    employees = load_employees()
-    employees= sorted(employees, key=lambda e: e['start_date'])
+    employees = database.get_employees()
+    print(employees)
     return render_template('employees.html', employees=employees)
 
 @app.route('/customers/')
@@ -54,7 +52,8 @@ def list_customers():
 
 @app.route('/employees/<employee_id>/')
 def view_employee(employee_id):
-    employee = database.get_employee(int(employee_id))
+    employee = database.get_employee(employee_id)
+    print(employee)
     if employee:
         return render_template('employee.html', employee_id=employee_id, employee=employee)
     else:
@@ -74,13 +73,13 @@ def create_employee():
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
-        title = request.form['title']
         address = request.form['address']
         email = request.form['email']
         dob = request.form['dob']
         phone = request.form['phone']
         start_date = request.form['start_date']
-        database.add_employee(first_name, last_name, title, address, email, dob, phone, start_date)
+        title = request.form['title']
+        database.add_employee(first_name, last_name, address, email, dob, phone, start_date, title)
 
         return redirect(url_for('list_employees'))
     else:
@@ -104,25 +103,23 @@ def create_lawn():
 @app.route('/employees/<employee_id>/edit', methods=['GET', 'POST'])
 def edit_employee(employee_id):
     employee = database.get_employee(employee_id)
-    if employee:
-        if request.method== 'POST':
-            employees = load_employees()
-            employee_id = int(employee_id)
-            employees[employee_id]['first_name']: request.form['first_name']
-            employees[employee_id]['last_name']: request.form['last_name']
-            employees[employee_id]['title']: request.form['title']
-            employees[employee_id]['address']: request.form['address']
-            employees[employee_id]['email']: request.form['email']
-            employees[employee_id]['dob']: request.form['dob']
-            employees[employee_id]['phone']: request.form['phone']
-            employees[employee_id]['start_date']: request.form['start_date']
-            employees.append(employee)
-        
-            database.update_employee(employee_id, employee)
+    if request.method== 'POST':
+        employee_id = int(employee_id)
+        employee[employee_id]['first_name']: request.form['first_name']
+        employee[employee_id]['last_name']: request.form['last_name']
+        employee[employee_id]['title']: request.form['title']
+        employee[employee_id]['address']: request.form['address']
+        employee[employee_id]['email']: request.form['email']
+        employee[employee_id]['dob']: request.form['dob']
+        employee[employee_id]['phone']: request.form['phone']
+        employee[employee_id]['start_date']: request.form['start_date']
+        employee.append(employee)
+            
+        database.update_employee(employee_id, employee)
 
-            return redirect(url_for('list_employee', employee_id=employee_id)) 
-        else:
-            return render_template('employee_form.html', employee_id=employee_id, employee=employee)
+        return redirect(url_for('list_employee', employee_id=employee_id)) 
+    else:
+        return render_template('employee_form.html', employee_id=employee_id, employee=employee)
     
         
 

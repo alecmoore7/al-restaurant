@@ -31,7 +31,7 @@
 {% for lawn in lawns: %}
     <li class="row pb-sm-3 pb-md-0">
         <div class="col-2"> </div>
-        <div class="col-md-4"><a href="{{ url_for('view_lawn', lawn_id=lawns.index(lawn)) }}">{{ lawn['address'] }}</a></div>
+        <div class="col-md-4"><a href="{{ url_for('view_lawn', lawn_id=lawn['id']) }}">{{ lawn['address'] }}</a></div>
         <div class="col-md-1 text-nowrap">{{ lawn['size'] }}</div>
         <div class="col-md-2 text-nowrap">{{ lawn['date_added'] }}</div>
         <div class="col-md-2 text-nowrap">{{ lawn['lawn_type'] }}</div>
