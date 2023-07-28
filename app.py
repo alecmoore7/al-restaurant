@@ -54,7 +54,7 @@ def list_customers():
 
 @app.route('/employees/<employee_id>/')
 def view_employee(employee_id):
-    employee = database.get_employee(employee_id)
+    employee = database.get_employee(int(employee_id))
     if employee:
         return render_template('employee.html', employee_id=employee_id, employee=employee)
     else:
@@ -72,42 +72,37 @@ def view_lawn(lawn_id):
 @app.route('/employee/create', methods=['GET', 'POST'])
 def create_employee():
     if request.method == 'POST':
-        employee = {
-            'first_name': request.form['first_name'],
-            'last_name': request.form['last_name'],
-            'title': request.form['title'],
-            'address': request.form['address'],
-            'email': request.form['email'],
-            'dob': request.form['dob'],
-            'phone': request.form['phone'],
-            'start_date': request.form['start_date'],
-        }
-
-        database.add_employee(employee)
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        title = request.form['title']
+        address = request.form['address']
+        email = request.form['email']
+        dob = request.form['dob']
+        phone = request.form['phone']
+        start_date = request.form['start_date']
+        database.add_employee(first_name, last_name, title, address, email, dob, phone, start_date)
 
         return redirect(url_for('list_employees'))
-    
-    return render_template('employee_form.html', employee=None)
+    else:
+        return render_template('employee_form.html', employee=None)
     
 @app.route('/lawns/create', methods=['GET', 'POST'])
 def create_lawn():
     #if we have form data coming in via POST
     if request.method == 'POST':
-        lawn = {
-            'address' : request.form['address'],
-            'size' : request.form['size'],
-            'lawn_type' : request.form['lawn_type'],
-            'date_added' : request.form['date_added'],
-            'notes' : request.form['notes'],
-        }
-        database.add_lawn(lawn)
+        address = request.form['address']
+        size = request.form['size']
+        lawn_type = request.form['lawn_type']
+        date_added =  request.form['date_added']
+        notes =  request.form['notes']
+        database.add_lawn(address, size, lawn_type, date_added, notes)
 
         return redirect(url_for('list_lawns'))
-
-    return render_template('lawn_form.html')
+    else:
+        return render_template('lawn_form.html')
 
 @app.route('/employees/<employee_id>/edit', methods=['GET', 'POST'])
-def edit_employee(employee_id=None):
+def edit_employee(employee_id):
     employee = database.get_employee(employee_id)
     if employee:
         if request.method== 'POST':
@@ -127,9 +122,6 @@ def edit_employee(employee_id=None):
 
             return redirect(url_for('list_employee', employee_id=employee_id)) 
         else:
-            employee_id = int(employee_id)
-            employees = load_employees
-            employee = employees[employee_id]
             return render_template('employee_form.html', employee_id=employee_id, employee=employee)
     
         
@@ -141,20 +133,17 @@ def edit_lawn(lawn_id=None):
         if request.method== 'POST':
             lawns = load_lawns()
             lawn_id = int(lawn_id)
-            lawns[lawn_id]['address']: request.form['address']
-            lawns[lawn_id]['size']: request.form['size']
-            lawns[lawn_id]['lawn_type']: request.form['lawn_type']
-            lawns[lawn_id]['date_added']: request.form['date_added']
-            lawns[lawn_id]['notes']: request.form['notes']
+            lawns[lawn_id]['address'] = request.form['address']
+            lawns[lawn_id]['size'] = request.form['size']
+            lawns[lawn_id]['lawn_type'] = request.form['lawn_type']
+            lawns[lawn_id]['date_added'] = request.form['date_added']
+            lawns[lawn_id]['notes'] = request.form['notes']
             lawns.append(lawn)
         
-            database.update_lawn(lawn_id, employee)
+            database.update_lawn(lawn_id, lawn)
 
             return redirect(url_for('list_lawn', lawn_id=lawn_id)) 
         else:
-            lawn_id = int(lawn_id)
-            lawns = load_lawns
-            employee = lawns[lawn_id]
             return render_template('lawn_form.html', lawn_id=lawn_id, lawn=lawn)
         
 @app.route('/lawn/<lawn_id>/delete', methods=['GET', "POST"])

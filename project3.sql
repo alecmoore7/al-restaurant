@@ -9,7 +9,7 @@ CREATE TABLE employees (
     last_name VARCHAR(50) NOT NULL,
     address VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    date_of_birth DATE NOT NULL,
+    dob DATE NOT NULL,
     phone VARCHAR(15) NOT NULL,
     start_date DATE NOT NULL,
     title VARCHAR(50) NOT NULL
