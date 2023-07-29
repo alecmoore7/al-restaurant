@@ -65,13 +65,13 @@ def get_lawn(lawn_id):
             cursor.execute("SELECT * FROM lawns WHERE id = %s", (lawn_id,))
             return cursor.fetchone()
 
-def add_lawn(lawn):
+def add_lawn(address, size, title, date_added, notes):
     '''Takes as input all of the data for a lawn. Inserts a new lawn into the lawns table'''
     conn = get_connection()
     with conn:
         with conn.cursor() as cursor:
             sql = "INSERT INTO lawns (address, size, date_added, notes) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (lawn['address'], lawn['size'], lawn['date_added'], lawn['notes']))
+            cursor.execute(sql, (address, size, title, date_added, notes))
         conn.commit()
 
 def update_lawn(lawn_id, lawn):

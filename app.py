@@ -64,26 +64,30 @@ def view_customer(customer_id):
 @app.route('/lawns/<lawn_id>/')
 def view_lawn(lawn_id):
     lawn = database.get_lawn(lawn_id)
+    customers = database.get_customers()
     if lawn:
-        customers = database.get_customers()
         return render_template('lawn.html', lawn=lawn, customers=customers)
     else:
         return redirect(url_for('list_lawns'))
 
-    
+@app.route('/lawns/<int:lawn_id>/assign_owner', methods=['POST'])
+def assign_owner(lawn_id):
+    owner_id = int(request.form.get('owner_id'))
+    database.lawn_owner(owner_id, lawn_id)
+    return redirect(url_for('view_lawn', lawn_id=lawn_id))
 
 
 @app.route('/employee/create', methods=['GET', 'POST'])
 def create_employee():
     if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        address = request.form['address']
-        email = request.form['email']
-        dob = request.form['dob']
-        phone = request.form['phone']
-        start_date = request.form['start_date']
-        title = request.form['title']
+        first_name = html.escape(request.form['first_name'])
+        last_name = html.escape(request.form['last_name'])
+        address = html.escape(request.form['address'])
+        email = html.escape(request.form['email'])
+        dob = html.escape(request.form['dob'])
+        phone = html.escape(request.form['phone'])
+        start_date = html.escape(request.form['start_date'])
+        title = html.escape(request.form['title'])
         database.add_employee(first_name, last_name, address, email, dob, phone, start_date, title)
 
         return redirect(url_for('list_employees'))
@@ -94,11 +98,12 @@ def create_employee():
 def create_lawn():
     #if we have form data coming in via POST
     if request.method == 'POST':
-        address = request.form['address']
-        size = request.form['size']
-        lawn_type = request.form['date_added']
-        date_added =  request.form['lawn_type']
-        notes =  request.form['notes']
+        address = html.escape(request.form['address'])
+        size = html.escape(request.form['size'])
+        lawn_type = html.escape(request.form['date_added'])
+        date_added =  html.escape(request.form['lawn_type'])
+        notes =  html.escape(request.form['notes'])
+        
         database.add_lawn(address, size, date_added, lawn_type, notes)
 
         return redirect(url_for('list_lawns'))
@@ -109,14 +114,14 @@ def create_lawn():
 def edit_employee(employee_id):
     employee = database.get_employee(employee_id)
     if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        address = request.form['address']
-        email = request.form['email']
-        dob = request.form['dob']
-        phone = request.form['phone']
-        start_date = request.form['start_date']
-        title = request.form['title']
+        first_name = html.escape(request.form['first_name'])
+        last_name = html.escape(request.form['last_name'])
+        address = html.escape(request.form['address'])
+        email = html.escape(request.form['email'])
+        dob = html.escape(request.form['dob'])
+        phone = html.escape(request.form['phone'])
+        start_date = html.escape(request.form['start_date'])
+        title = html.escape(request.form['title'])
 
         database.update_employee(employee_id, {
             'first_name': first_name,
@@ -138,11 +143,11 @@ def edit_employee(employee_id):
 def edit_lawn(lawn_id=None):
     lawn = database.get_lawn(lawn_id)
     if request.method == 'POST':
-        address = request.form['address']
-        size = request.form['size']
-        date_added = request.form['date_added']
-        lawn_type = request.form['lawn_type']
-        notes = request.form['notes']
+        address = html.escape(request.form['address'])
+        size = html.escape(request.form['size'])
+        date_added = html.escape(request.form['date_added'])
+        lawn_type = html.escape(request.form['lawn_type'])
+        notes = html.escape(request.form['notes'])
         
         database.update_lawn(lawn_id, {
             'address': address,
@@ -160,13 +165,12 @@ def edit_lawn(lawn_id=None):
 def delete_lawn(lawn_id=None):
     lawn_id = int(lawn_id)
     delete=request.args.get('delete', None)
-    lawns = load_lawns()
-    if delete == "1" and lawn_id < len(lawns):
-        del lawns[lawn_id]
-        database.update_lawn(lawns)
+    if delete == "1" and lawn_id < len(lawn):
+        del lawn[lawn_id]
+        database.update_lawn(lawn)
         return redirect(url_for('list_lawns'))  
     else:
-        lawn=lawns[lawn_id]
+        lawn=lawn[lawn_id]
         return render_template('delete_form.html', lawn_id=lawn_id, lawn=lawn)          
 
 if __name__ == '__main__':
