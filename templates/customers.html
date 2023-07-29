@@ -26,7 +26,7 @@
     <li class="row pb-sm-3 pb-md-0">
         <div class="col-1"> </div>
         <div class="col-md-2 text-nowrap"><strong>Name</strong></div>
-        <div class="col-md-3 text-nowrap"><strong>Address</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Address</strong></div>
         <div class="col-md-2 text-nowrap"><strong>Email</strong></div>
         <div class="col-md-2 text-nowrap"><strong>DoB</strong></div>
         <div class="col-md-2 text-nowrap"><strong>Phone</strong></div>
@@ -34,17 +34,13 @@
 {% for customer in customers: %}
     <li class="row pb-sm-3 pb-md-0">
         <div class="col-1"> </div>
-        <div class="col-md-2">{{ customer['name'] }}</div>
-        <div class="col-md-3 text-nowrap">{{ customer['address'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ customer['first_name'] }} {{ customer['last_name'] }}</div>
+        <div class="col-md-2 text-nowrap">{{ customer['address'] }}</div>
         <div class="col-md-2 text-nowrap">{{ customer['email'] }}</div>
         <div class="col-md-2 text-nowrap">{{ customer['dob'] }}</div>
         <div class="col-md-2 text-nowrap">{{ customer['phone'] }}</div>
     </li>
 {% endfor %}
 </ul>
-    <!--<div class="row">
-        <div class="col-5"></div>
-        <div class="col-3 my-2"><a class="btn btn-primary" href="">Add a Lawn!</a></div>
-    </div>-->
 </div>   
 {% endblock %}

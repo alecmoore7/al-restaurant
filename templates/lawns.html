@@ -27,6 +27,7 @@
         <div class="col-md-1 text-nowrap"><strong>Size</strong></div>
         <div class="col-md-2 text-nowrap"><strong>Date Added</strong></div>
         <div class="col-md-2 text-nowrap"><strong>Type</strong></div>
+        <div class="col-md-2 text-nowrap"><strong>Owner</strong></div>
     </li>
 {% for lawn in lawns: %}
     <li class="row pb-sm-3 pb-md-0">
@@ -35,8 +36,17 @@
         <div class="col-md-1 text-nowrap">{{ lawn['size'] }}</div>
         <div class="col-md-2 text-nowrap">{{ lawn['date_added'] }}</div>
         <div class="col-md-2 text-nowrap">{{ lawn['lawn_type'] }}</div>
+        <div class="col-md-1">
+            {% if lawn['owner'] %}
+                <a href="{{ url_for('view_customer', customer_id=lawn['owner']['id']) }}">
+                    {{ lawn['owner']['first_name'] }} {{ lawn['owner']['last_name'] }}
+                </a>
+            {% else %}
+                No owner on record
+            {% endif %}
+        </div>
     </li>
-{% endfor %}
+    {% endfor %}
 </ul>
     <div class="row">
         <div class="col-5"></div>

@@ -26,6 +26,11 @@
         <div class="col-2 bg-light"><strong>Date Added:</strong></div>
         <div class="col-3 bg-light">{{ lawn['date_added'] }}</div>
     </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-2 bg-light"><strong>Lawn Type:</strong></div>
+        <div class="col-3 bg-light">{{ lawn['lawn_type'] }}</div>
+    </div>
     <div class="row mt-3">
         <div class="col-2"></div>
         <div class="col-2"><strong>Lawn Notes:</strong></div>
@@ -35,6 +40,19 @@
     </div>
 </div>
 
+<div class="row mt-5">
+    <div class="col-2"></div>
+    <div class="col-6">
+        {% if lawn['owner'] %}
+            <strong>Owner:</strong>
+            <a href="{{ url_for('view_customer', customer_id=lawn['owner']['id']) }}">
+                {{ lawn['owner']['first_name'] }} {{ lawn['owner']['last_name'] }}
+            </a>
+        {% else %}
+            <strong>Owner:</strong> No owner on record
+        {% endif %}
+    </div>
+</div>
 
 <div class="row mt-5">
     <div class="col-2"></div>
