@@ -68,3 +68,9 @@ INSERT INTO lawns (address, size, date_added, lawn_type, notes) VALUES
 ('654 Pine St Bloomington, IN', 10000, '2023-07-01', 'Residential', 'Large front and side lawn.'),
 ('222 Elm Rd Bloomington, IN', 3500, '2023-08-05', 'Commercial', 'Small corner lot with minimal maintenance needed.');
 
+INSERT INTO lawn_owners (customer_id, lawn_id) VALUES
+(1, 1),
+(2, 2), 
+(3, 3), 
+(4, 4),
+(5, 5); 

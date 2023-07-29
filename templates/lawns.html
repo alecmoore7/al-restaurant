@@ -36,7 +36,7 @@
         <div class="col-md-1 text-nowrap">{{ lawn['size'] }}</div>
         <div class="col-md-2 text-nowrap">{{ lawn['date_added'] }}</div>
         <div class="col-md-2 text-nowrap">{{ lawn['lawn_type'] }}</div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             {% if lawn['owner'] %}
                 <a href="{{ url_for('view_customer', customer_id=lawn['owner']['id']) }}">
                     {{ lawn['owner']['first_name'] }} {{ lawn['owner']['last_name'] }}

@@ -27,7 +27,6 @@ def index():
 @app.route('/lawns/')
 def list_lawns():
     lawns = database.get_lawns()
-    print(lawns)
     return render_template('lawns.html', lawns=lawns)
 
 @app.route('/employees')
@@ -65,13 +64,14 @@ def view_customer(customer_id):
 @app.route('/lawns/<lawn_id>/')
 def view_lawn(lawn_id):
     lawn = database.get_lawn(lawn_id)
-    customers = database.get_customers()
-    if request.method == 'POST':
-        customer_id = int(request.form['customer_id'])
-        database.assign_lawn_owner(lawn_id, customer_id)
+    if lawn:
+        customers = database.get_customers()
         return render_template('lawn.html', lawn=lawn, customers=customers)
-    return redirect(url_for('view_lawn', lawn_id=lawn_id))
+    else:
+        return redirect(url_for('list_lawns'))
+
     
+
 
 @app.route('/employee/create', methods=['GET', 'POST'])
 def create_employee():

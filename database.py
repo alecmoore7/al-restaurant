@@ -16,6 +16,47 @@ def get_lawns():
             cursor.execute("SELECT * FROM lawns")
             return cursor.fetchall()
 
+def get_lawn_with_owner(lawn_id):
+    '''Takes a lawn_id, returns a dictionary containing the data for the lawn with that id and its owner'''
+    conn = get_connection()
+    with conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT l.*, c.id AS customer_id, c.first_name, c.last_name FROM lawns l LEFT JOIN lawn_owners lo ON l.id=lo.lawn_id LEFT JOIN customers c ON lo.customer_id=c.id WHERE l.id = %s", (lawn_id,))
+            return cursor.fetchone()
+
+def get_lawns_with_owners():
+    '''Returns a list of dictionaries representing all lawns with their respective owners'''
+    conn = get_connection()
+    with conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT l.*, c.id AS customer_id, c.first_name, c.last_name FROM lawns l LEFT JOIN lawn_owners lo ON l.id=lo.lawn_id LEFT JOIN customers c ON lo.customer_id=c.id ORDER BY l.address")
+            lawns = cursor.fetchall()
+
+            # Group the lawns by their IDs and aggregate owners if there are multiple owners for a single lawn
+            lawns_dict = {}
+            for lawn in lawns:
+                lawn_id = lawn['id']
+                if lawn_id not in lawns_dict:
+                    lawns_dict[lawn_id] = {
+                        'id': lawn_id,
+                        'address': lawn['address'],
+                        'size': lawn['size'],
+                        'date_added': lawn['date_added'],
+                        'lawn_type': lawn['lawn_type'],
+                        'notes': lawn['notes'],
+                        'owners': []
+                    }
+                if lawn['customer_id']:
+                    lawns_dict[lawn_id]['owners'].append({
+                        'id': lawn['customer_id'],
+                        'first_name': lawn['first_name'],
+                        'last_name': lawn['last_name']
+                    })
+
+            return list(lawns_dict.values())
+
+
+
 def get_lawn(lawn_id):
     '''Takes a lawn_id, returns a single dictionary containing the data for the lawn with that id'''
     conn = get_connection()
@@ -117,6 +158,8 @@ def update_employee(employee_id, employee):
             sql = "UPDATE employees SET first_name=%s, last_name=%s, title=%s, address=%s, email=%s, phone=%s, dob=%s, start_date=%s WHERE id=%s"
             cursor.execute(sql, (employee['first_name'], employee['last_name'], employee['title'], employee['address'], employee['email'],employee['phone'], employee['dob'], employee['start_date'], employee_id))
         conn.commit()
+
+
 
 if __name__ == '__main__':
     # add more test code here to make sure all your functions are working correctly
