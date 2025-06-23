@@ -116,13 +116,13 @@ def get_customers():
             cursor.execute("SELECT * FROM customers")
             return cursor.fetchall()
 
-def add_customer(customer):
+def add_customer(first_name, last_name, address, email, dob, phone):
     '''Takes all of the data required for a customer and inserts it into the customers table'''
     conn = get_connection()
     with conn:
         with conn.cursor() as cursor:
-            sql = "INSERT INTO customers (name, address, email, dob, phone) VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(sql, (customer['name'], customer['address'], customer['email'], customer['dob'],customer['phone']))
+            sql = "INSERT INTO customers (first_name, last_name, address, email, dob, phone) VALUES (%s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (first_name, last_name, address, email, dob, phone))
         conn.commit()
 
 def get_employees():

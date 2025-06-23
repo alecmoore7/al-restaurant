@@ -15,8 +15,6 @@ import database
 #Globals for handling csv read/write on server
 LAWN_PATH = app.root_path + '/lawns.csv'
 LAWN_KEYS = ['address','size','date_added','notes']
-CUSTOMER_PATH = app.root_path + '/customers.csv'
-CUSTOMER_KEYS = ['name','address','email','dob','phone']
 EMPLOYEE_PATH = app.root_path + '/employees.csv'
 EMPLOYEE_KEYS = ['first_name', 'last_name', 'address', 'email', 'dob', 'phone', 'start_date', 'title']
 
@@ -171,7 +169,24 @@ def delete_lawn(lawn_id=None):
         return redirect(url_for('list_lawns'))  
     else:
         lawn=lawn[lawn_id]
-        return render_template('delete_form.html', lawn_id=lawn_id, lawn=lawn)          
+        return render_template('delete_form.html', lawn_id=lawn_id, lawn=lawn)
+
+@app.route('/customer/create', methods=['GET', 'POST'])
+def create_customer():
+    if request.method == 'POST':
+        first_name = html.escape(request.form['first_name'])
+        last_name = html.escape(request.form['last_name'])
+        address = html.escape(request.form['address'])
+        email = html.escape(request.form['email'])
+        dob = html.escape(request.form['dob'])
+        phone = html.escape(request.form['phone'])
+
+        database.add_customer(first_name, last_name, address, email, dob, phone)
+
+        return redirect(url_for('list_customers'))
+    else:
+        return render_template('customer_form.html', customer=None)
+          
 
 if __name__ == '__main__':
     app.run(debug = True)
