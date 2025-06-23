@@ -1,6 +1,5 @@
 import pymysql
 from flask import Flask, render_template, redirect, url_for, request
-import csv  # Used for reading and writing event data via csv.
 from os.path import exists 
 import html
 
@@ -15,6 +14,8 @@ import database
 #Globals for handling csv read/write on server
 LAWN_PATH = app.root_path + '/lawns.csv'
 LAWN_KEYS = ['address','size','date_added','notes']
+CUSTOMER_PATH = app.root_path + '/customers.csv'
+CUSTOMER_KEYS = ['name','address','email','dob','phone']
 EMPLOYEE_PATH = app.root_path + '/employees.csv'
 EMPLOYEE_KEYS = ['first_name', 'last_name', 'address', 'email', 'dob', 'phone', 'start_date', 'title']
 
@@ -163,30 +164,12 @@ def edit_lawn(lawn_id=None):
 def delete_lawn(lawn_id=None):
     lawn_id = int(lawn_id)
     delete=request.args.get('delete', None)
-    if delete == "1" and lawn_id < len(lawn):
-        del lawn[lawn_id]
-        database.update_lawn(lawn)
+    if delete == "1":
+        database.delete_lawn(lawn_id)
         return redirect(url_for('list_lawns'))  
     else:
-        lawn=lawn[lawn_id]
-        return render_template('delete_form.html', lawn_id=lawn_id, lawn=lawn)
-
-@app.route('/customer/create', methods=['GET', 'POST'])
-def create_customer():
-    if request.method == 'POST':
-        first_name = html.escape(request.form['first_name'])
-        last_name = html.escape(request.form['last_name'])
-        address = html.escape(request.form['address'])
-        email = html.escape(request.form['email'])
-        dob = html.escape(request.form['dob'])
-        phone = html.escape(request.form['phone'])
-
-        database.add_customer(first_name, last_name, address, email, dob, phone)
-
-        return redirect(url_for('list_customers'))
-    else:
-        return render_template('customer_form.html', customer=None)
-          
+        lawn=database.get_lawn(lawn_id)
+        return render_template('delete_form.html', lawn_id=lawn_id, lawn=lawn)          
 
 if __name__ == '__main__':
     app.run(debug = True)
