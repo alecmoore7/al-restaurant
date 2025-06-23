@@ -100,8 +100,8 @@ def create_lawn():
     if request.method == 'POST':
         address = html.escape(request.form['address'])
         size = html.escape(request.form['size'])
-        lawn_type = html.escape(request.form['date_added'])
-        date_added =  html.escape(request.form['lawn_type'])
+        date_added = html.escape(request.form['date_added'])
+        lawn_type = html.escape(request.form['lawn_type'])
         notes =  html.escape(request.form['notes'])
         
         database.add_lawn(address, size, date_added, lawn_type, notes)
