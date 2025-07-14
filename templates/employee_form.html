@@ -18,7 +18,7 @@
     {% set phone = employee['phone'] %}
     {% set start_date = employee['start_date'] %}
     {% set title = employee['title'] %}
-    <h2>Edit employee: {{ first_name }} {{ last_name }}</h2>
+    <h2>Edit Employee: {{ first_name }} {{ last_name }}</h2>
 {% else %}
     {% set first_name = '' %}
     {% set last_name = '' %}
@@ -28,95 +28,89 @@
     {% set phone = '' %}
     {% set start_date = '' %}
     {% set title = '' %}
-    <h2>Create a new employee:</h2>
+    <h2>Create a New Employee</h2>
 {% endif %}
 
-<form method="POST" name="event_form" class="container">
-    <div class="row my-2">
-        <div class="col-md-2 text-nowrap text-end">
-            <label for="first_name">First Name:</label>
-        </div>
-        <div class="col">
-            <input type="text" id="first_name" name="first_name" value="{{ first_name }}" size="60" />
-        </div>
+<form method="POST" class="container">
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="first_name">First Name:</label>
     </div>
-    <div class="row my-2">
-        <div class="col-md-2 text-nowrap text-end">
-            <label for="last_name">Last Name:</label>
-        </div>
-        <div class="col">
-            <input type="text" id="last_name" name="last_name" value="{{ last_name }}" size="60" />
-        </div>
+    <div class="col">
+      <input type="text" id="first_name" name="first_name" value="{{ first_name }}" required />
     </div>
-    <div class="row my-2">
-        <div class="row my-2">
-            <div class="col-md-2 text-end">
-                <label for="title">Job Title:</label>
-            </div>
-            <div class="col">
-                <select name="title" id="title">
-                    <option {% if title=="owner" %}selected{% endif %} value="owner">
-                        Owner
-                    </option>
-                    <option {% if title=="general manager" %}selected{% endif %} value="general manager">
-                        General Manager
-                    </option>
-                    <option {% if title=="crew member" %}selected{% endif %} value="crew member">
-                        Crew Member
-                    </option>
-                    <option {% if title=="crew member" %}selected{% endif %} value="crew member">
-                        Crew Member
-                    </option>
-                    <option {% if title=="crew leader" %}selected{% endif %} value="crew leader">
-                        Crew Leader
-                    </option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-2 text-nowrap text-end">
-            <label for="address">Address:</label>
-        </div>
-        <div class="col">
-            <input type="text" id="address" name="address" value="{{address}}" size="60" />
-        </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="last_name">Last Name:</label>
     </div>
-    <div class="row my-2">
-        <div class="col-md-2 text-end">
-            <label for="size">Email:</label>
-        </div>
-        <div class="col">
-            <input type="email" id="email" name="email" />
-        </div>
+    <div class="col">
+      <input type="text" id="last_name" name="last_name" value="{{ last_name }}" required />
     </div>
-    <div class="row my-2">
-        <div class="col-md-2 text-nowrap text-end">
-            <label for="address">Phone:</label>
-        </div>
-        <div class="col">
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" />
-        </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="title">Job Title:</label>
     </div>
-    <div class="row my-2">
-        <div class="col-md-2 text-end">
-            <label for="dob">Date of Birth:</label>
-        </div>
-        <div class="col">
-            <input type="date" id="dob" name="dob" />
-        </div>
+    <div class="col">
+      <select name="title" id="title" class="form-select">
+        {% for option in ['Owner', 'General Manager', 'Crew Member', 'Crew Leader'] %}
+          <option value="{{ option.lower() }}" {% if title == option.lower() %}selected{% endif %}>{{ option }}</option>
+        {% endfor %}
+      </select>
     </div>
-    <div class="row my-2">
-        <div class="col-md-2 text-end">
-            <label for="start_date">Start Date:</label>
-        </div>
-        <div class="col">
-            <input type="date" id="" name="start_date" 
-            value="{{ start_date }}"
-            size="40" />
-        </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="address">Address:</label>
     </div>
-    <div class="my-2 text-center">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        <input type="reset" value="Reset" class="btn btn-secondary" />
+    <div class="col">
+      <input type="text" id="address" name="address" value="{{ address }}" />
     </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="email">Email:</label>
+    </div>
+    <div class="col">
+      <input type="email" id="email" name="email" value="{{ email }}" />
+    </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="phone">Phone:</label>
+    </div>
+    <div class="col">
+      <input type="tel" id="phone" name="phone" value="{{ phone }}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+    </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="dob">Date of Birth:</label>
+    </div>
+    <div class="col">
+      <input type="date" id="dob" name="dob" value="{{ dob }}" />
+    </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-md-2 text-end">
+      <label for="start_date">Start Date:</label>
+    </div>
+    <div class="col">
+      <input type="date" id="start_date" name="start_date" value="{{ start_date }}" />
+    </div>
+  </div>
+
+  <div class="my-3 text-center">
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <input type="reset" value="Reset" class="btn btn-secondary" />
+  </div>
 </form>
 {% endblock %}

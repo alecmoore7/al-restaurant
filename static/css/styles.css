@@ -1,0 +1,126 @@
+/* ---------- Reset and Box Model ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Full Height Layout ---------- */
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6 {
+  color: #198754;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: 500;
+}
+
+/* ---------- Containers ---------- */
+.container,
+.container-sm,
+.container-md {
+  padding: 1rem 1.5rem;
+}
+
+/* ---------- Main Layout Centering ---------- */
+main.flex-grow-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  padding-bottom: 40px;
+}
+
+/* ---------- Card-Like White Content Box ---------- */
+.bg-white-glass {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  max-width: 900px;
+  width: 100%;
+}
+
+/* ---------- Navbar ---------- */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  background-color: #198754;
+  border-color: #157347;
+}
+
+.btn-primary:hover {
+  background-color: #157347;
+  border-color: #146c43;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5c636a;
+  border-color: #545b62;
+}
+
+/* ---------- Forms ---------- */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+input[type="submit"],
+input[type="reset"] {
+  width: auto;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  background-color: #198754;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  margin-top: auto;
+}
+
+/* ---------- Utility ---------- */
+.text-green {
+  color: #198754;
+}
