@@ -152,13 +152,31 @@ def add_employee(first_name, last_name, address, email, dob, phone, start_date, 
 
 def update_employee(employee_id, employee):
     '''Takes an employee_id and data for an employee. Updates the employees table with new data for the employee with employee_id as its primary key'''
+    
+    # Handle empty DOB and start_date fields
+    dob = employee['dob'] if employee['dob'] != '' else None
+    start_date = employee['start_date'] if employee['start_date'] != '' else None
+
     conn = get_connection()
     with conn:
         with conn.cursor() as cursor:
-            sql = "UPDATE employees SET first_name=%s, last_name=%s, title=%s, address=%s, email=%s, phone=%s, dob=%s, start_date=%s WHERE id=%s"
-            cursor.execute(sql, (employee['first_name'], employee['last_name'], employee['title'], employee['address'], employee['email'],employee['phone'], employee['dob'], employee['start_date'], employee_id))
+            sql = """
+                UPDATE employees
+                SET first_name=%s, last_name=%s, title=%s, address=%s, email=%s, phone=%s, dob=%s, start_date=%s
+                WHERE id=%s
+            """
+            cursor.execute(sql, (
+                employee['first_name'],
+                employee['last_name'],
+                employee['title'],
+                employee['address'],
+                employee['email'],
+                employee['phone'],
+                dob,
+                start_date,
+                employee_id
+            ))
         conn.commit()
-
 
 
 if __name__ == '__main__':
