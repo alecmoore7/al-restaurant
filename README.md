@@ -1,92 +1,130 @@
-# i211 Flask Template
+# 🌿 Happy Lawn Management Application
 
-Template repository for building a flask website.
+A full-featured Flask web app for managing employees, lawn jobs, and operations for a lawn care business. Built for speed, simplicity, and seasonal crews.
 
-## Quickstart
+---
 
-**MacOS / Linux / ChromeOS**
+## 🚀 Features
+
+- 👨‍🌾 **Employee Management**  
+  Add, edit, and delete employees. Track job titles, contact info, and start dates.
+
+- 🏡 **Lawn Job Scheduling**  
+  Manage address, property type, size, and job notes. Create, edit, and delete lawn entries.
+
+- 💾 **MariaDB Integration**  
+  Data stored persistently in a relational SQL database. Secure form submissions and validation.
+
+- 🧱 **Responsive Design**  
+  Bootstrap 5 layout with custom CSS for a clean and mobile-friendly experience.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer      | Technology           |
+|------------|----------------------|
+| Backend    | Python (Flask)       |
+| Frontend   | HTML, Jinja2, Bootstrap 5 |
+| Database   | MariaDB (SQL)        |
+| Styling    | Custom CSS           |
+| Dev Env    | VS Code + WSL (Ubuntu) |
+
+---
+
+## 📦 Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/alecmoore7/al-restaurant.git
+cd al-restaurant
+```
+
+### 2. Set up a virtual environment
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-**Windows + PowerShell**
+### 4. Start your MariaDB server (if not already running)
 
-<details>
-<summary>Do you see a red permissions error when activating the environment?</summary>
-
-You might need to set the execution policy on your machine. This should only need to be done once:
-
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+For WSL/Ubuntu users:
+```bash
+sudo service mysql start
 ```
 
-</details>
+### 5. Set up the database
 
-```powershell
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+If the `lawncare` database doesn’t already exist, create it:
+
+```bash
+mysql -u root -p
 ```
+
+Inside the MariaDB shell:
+
+```sql
+CREATE DATABASE lawncare;
+EXIT;
+```
+
+Then import the table structure:
+
+```bash
+mysql -u root -p lawncare < project3.sql
+```
+
+### 6. Run the Flask app
+
+Make sure you’re in the project directory and your virtual environment is activated.
+
+Run:
+
+```bash
+export FLASK_APP=app.py
+export FLASK_ENV=development
+flask run
+```
+
+> On Windows (CMD), use `set` instead of `export`:
+>
+> ```cmd
+> set FLASK_APP=app.py
+> set FLASK_ENV=development
+> flask run
+> ```
+
+Visit the app in your browser at:  
+[http://localhost:5000](http://localhost:5000)
 
 ---
 
-Check your `flask` installation:
+## 🗂️ Project Structure
 
-```bash
-python -m flask --version
 ```
-
-<details>
-<summary>Did you see an error like <code>ImportError: cannot import name 'Mapping' from 'collections'</code>?</summary>
-
-Run the patch script:
-
-```powershell
-python patch_jinja.py
-```
-
-</details>
-
-## Primary Sources
-
-| page | url | summary |
-| :--- | :---- | :----- |
-| Bootstrap 5.3 | https://getbootstrap.com/docs/5.3/getting-started/introduction/ | "Bootstrap is a powerful, feature-packed frontend toolkit." |
-| Jinja 2.10.x | https://jinja.palletsprojects.com/en/2.10.x/ | Jinja is a templating language for Python. |
-| `templates/base.html` | https://getbootstrap.com/docs/5.3/examples/sticky-footer-navbar/ | The `base.html` here is based off the Bootstrap 5.3 "*Sticky footer with fixed navbar*" template. |
-| Luddy CGI Server | https://uisapp2.iu.edu/confluence-prd/pages/viewpage.action?pageId=130122153 | The Luddy cgi server allows the running of arbitrary programs (e.g. perl, python, scheme, bash, etc). |
-
-## Common Operations
-
-Logging into `silo`:
-
-```bash
-ssh username@silo.luddy.indiana.edu
-```
-
-Debugging cgi errors:
-
-```bash
-ssh username@silo.luddy.indiana.edu
-ssh username@cgi.luddy.indiana.edu
-less +F /var/log/apache2/error.log
-```
-
-Logging into MariaDB (replace USER/PASSWORD/DATABASE):
-
-```bash
-mysql -h db.luddy.indiana.edu -u USER --password=PASSWORD -D DATABASE
-```
-
-## Other Notes
-
-**Q**: *How do I know what packages are installed on the server?*
-
-**A**: Here's a one-liner:
-
-```bash
-pip freeze | grep "click\|Flask\|itsdangerous\|Jinja2\|MarkupSafe\|Werkzeug\|PyMySQL"
+al-restaurant/
+├── app.py
+├── config.py
+├── database.py
+├── project3.sql
+├── requirements.txt
+├── static/
+│   ├── css/
+│   │   └── styles.css
+│   └── images/
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── employees.html
+│   ├── employee_form.html
+│   └── lawn_form.html
+└── README.md
 ```
